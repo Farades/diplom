@@ -1,40 +1,12 @@
 // **********************************************************************************
-// Driver definition for HopeRF RFM69W/RFM69HW/RFM69CW/RFM69HCW, Semtech SX1231/1231H
-// **********************************************************************************
 // Copyright Felix Rusu (2014), felix@lowpowerlab.com
 // http://lowpowerlab.com/
 // **********************************************************************************
-// License
-// **********************************************************************************
-// This program is free software; you can redistribute it 
-// and/or modify it under the terms of the GNU General    
-// Public License as published by the Free Software       
-// Foundation; either version 2 of the License, or        
-// (at your option) any later version.                    
-//                                                        
-// This program is distributed in the hope that it will   
-// be useful, but WITHOUT ANY WARRANTY; without even the  
-// implied warranty of MERCHANTABILITY or FITNESS FOR A   
-// PARTICULAR PURPOSE.  See the GNU General Public        
-// License for more details.                              
-//                                                        
-// You should have received a copy of the GNU General    
-// Public License along with this program; if not, write 
-// to the Free Software Foundation, Inc.,                
-// 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
-//                                                        
-// Licence can be viewed at                               
-// http://www.fsf.org/licenses/gpl.txt                    
-//
-// Please maintain this license information along with authorship
-// and copyright notices in any redistribution of this code
-// **********************************************************************************
 #ifndef RFM69_h
 #define RFM69_h
-#include <Arduino.h>            //assumes Arduino IDE v1.0 or greater
+#include <Arduino.h>            
 
 #define RF69_MAX_DATA_LEN         61 // to take advantage of the built in AES/CRC we want to limit the frame size to the internal FIFO size (66 bytes - 3 bytes overhead)
-#define RF69_SPI_CS               SS // SS is the SPI slave select pin, for instance D10 on atmega328
 
 // INT0 on AVRs should be connected to RFM69's DIO0 (ex on Atmega328 it's D2, on Atmega644/1284 it's D2)
 #if defined(__AVR_ATmega168__) || defined(__AVR_ATmega328P__) || defined(__AVR_ATmega88) || defined(__AVR_ATmega8__) || defined(__AVR_ATmega88__)
@@ -50,7 +22,7 @@
 #define	RF69_MODE_STANDBY     1 // XTAL ON
 #define RF69_MODE_SYNTH	      2 // PLL ON
 #define RF69_MODE_RX          3 // RX MODE
-#define RF69_MODE_TX		      4 // TX MODE
+#define RF69_MODE_TX		  4 // TX MODE
 
 //available frequency bands
 #define RF69_315MHZ     31  // non trivial values to avoid misconfiguration
@@ -75,7 +47,7 @@ class RFM69 {
     static volatile int RSSI; //most accurate RSSI during reception (closest to the reception)
     static volatile byte _mode; //should be protected?
     
-    RFM69(byte slaveSelectPin=RF69_SPI_CS, byte interruptPin=RF69_IRQ_PIN, bool isRFM69HW=false, byte interruptNum=RF69_IRQ_NUM) {
+    RFM69(byte slaveSelectPin, byte interruptPin, bool isRFM69HW=false, byte interruptNum=RF69_IRQ_NUM) {
       _slaveSelectPin = slaveSelectPin;
       _interruptPin = interruptPin;
       _interruptNum = interruptNum;
