@@ -1,12 +1,11 @@
-#include <QtGui>
-#include "AppWidget.h"
+#include "mainwindow.h"
+#include <QApplication>
 
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
-    AppWidget app;
-
-    app.show();
+    MainWindow w;
+    w.show();
 
     return a.exec();
 }
