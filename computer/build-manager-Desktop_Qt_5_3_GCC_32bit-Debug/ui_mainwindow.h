@@ -13,7 +13,9 @@
 #include <QtWidgets/QAction>
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QButtonGroup>
+#include <QtWidgets/QHBoxLayout>
 #include <QtWidgets/QHeaderView>
+#include <QtWidgets/QLineEdit>
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QMenu>
 #include <QtWidgets/QMenuBar>
@@ -38,6 +40,10 @@ public:
     QVBoxLayout *verticalLayout_2;
     QPlainTextEdit *plainTextEdit;
     QPushButton *connectButton;
+    QPushButton *disconnectButton;
+    QHBoxLayout *horizontalLayout;
+    QLineEdit *lineEdit;
+    QPushButton *sendButton;
     QWidget *tab_2;
     QMenuBar *menuBar;
     QMenu *menu_File;
@@ -76,6 +82,27 @@ public:
 
         verticalLayout_2->addWidget(connectButton);
 
+        disconnectButton = new QPushButton(tab);
+        disconnectButton->setObjectName(QStringLiteral("disconnectButton"));
+
+        verticalLayout_2->addWidget(disconnectButton);
+
+        horizontalLayout = new QHBoxLayout();
+        horizontalLayout->setSpacing(6);
+        horizontalLayout->setObjectName(QStringLiteral("horizontalLayout"));
+        lineEdit = new QLineEdit(tab);
+        lineEdit->setObjectName(QStringLiteral("lineEdit"));
+
+        horizontalLayout->addWidget(lineEdit);
+
+        sendButton = new QPushButton(tab);
+        sendButton->setObjectName(QStringLiteral("sendButton"));
+
+        horizontalLayout->addWidget(sendButton);
+
+
+        verticalLayout_2->addLayout(horizontalLayout);
+
         tabWidget->addTab(tab, QString());
         tab_2 = new QWidget();
         tab_2->setObjectName(QStringLiteral("tab_2"));
@@ -113,6 +140,8 @@ public:
         actionConfigure->setText(QApplication::translate("MainWindow", "\320\232\320\276\320\275\321\204\320\270\320\263\321\203\321\200\320\260\321\206\320\270\321\217 \321\201\320\276\320\265\320\264\320\270\320\275\320\265\320\275\320\270\321\217", 0));
         actionExit->setText(QApplication::translate("MainWindow", "\320\222\321\213\321\205\320\276\320\264", 0));
         connectButton->setText(QApplication::translate("MainWindow", "Connect", 0));
+        disconnectButton->setText(QApplication::translate("MainWindow", "Disconnect", 0));
+        sendButton->setText(QApplication::translate("MainWindow", "Send", 0));
         tabWidget->setTabText(tabWidget->indexOf(tab), QApplication::translate("MainWindow", "Tab 1", 0));
         tabWidget->setTabText(tabWidget->indexOf(tab_2), QApplication::translate("MainWindow", "Tab 2", 0));
         menu_File->setTitle(QApplication::translate("MainWindow", "\320\234\320\265\320\275\321\216", 0));

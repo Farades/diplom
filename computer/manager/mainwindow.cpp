@@ -13,17 +13,22 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
+    ui->disconnectButton->setEnabled(false);
+    ui->sendButton->setEnabled(false);
+    ui->lineEdit->setEnabled(false);
+
     serial   = new QSerialPort(this);
     settings = new ComDialog;
 
     initActionsConnections();
 
     connect(serial, SIGNAL(readyRead()), this, SLOT(readData()));
-    //connect(console, SIGNAL(getData(QByteArray)), this, SLOT(writeData(QByteArray)));
+    connect(this, SIGNAL(getData(QByteArray)), this, SLOT(writeData(QByteArray)));
 }
 
 void MainWindow::writeData(const QByteArray &data)
 {
+    qDebug() << "Sending:" << data;
     serial->write(data);
 }
 
@@ -31,6 +36,13 @@ void MainWindow::readData()
 {
     QByteArray data = serial->readAll();
     ui->plainTextEdit->insertPlainText(QString(data));
+}
+
+void MainWindow::readFromLineEdit()
+{
+    QByteArray text = ui->lineEdit->text().toLocal8Bit();
+    ui->lineEdit->setText("");
+    emit getData(text);
 }
 
 void MainWindow::openSerialPort()
@@ -46,11 +58,27 @@ void MainWindow::openSerialPort()
         ui->statusBar->showMessage(tr("Connected to %1 : %2, %3, %4, %5, %6")
                                    .arg(p.name).arg(p.stringBaudRate).arg(p.stringDataBits)
                                    .arg(p.stringParity).arg(p.stringStopBits).arg(p.stringFlowControl));
+        qDebug() << "Connected to" << p.name;
     } else {
         QMessageBox::critical(this, tr("Error"), serial->errorString());
 
         ui->statusBar->showMessage(tr("Open error"));
     }
+    ui->sendButton->setEnabled(true);
+    ui->connectButton->setEnabled(false);
+    ui->disconnectButton->setEnabled(true);
+    ui->lineEdit->setEnabled(true);
+}
+
+void MainWindow::closeSerialPort()
+{
+    serial->close();
+    ui->sendButton->setEnabled(false);
+    ui->connectButton->setEnabled(true);
+    ui->disconnectButton->setEnabled(false);
+    ui->lineEdit->setEnabled(false);
+    ui->statusBar->showMessage(tr("Disconnected"));
+    qDebug() << "Disconnect from com-port";
 }
 
 void MainWindow::initActionsConnections()
@@ -60,6 +88,11 @@ void MainWindow::initActionsConnections()
 
     connect(ui->connectButton, SIGNAL(clicked()),
             this, SLOT(openSerialPort()));
+    connect(ui->disconnectButton, SIGNAL(clicked()),
+            this, SLOT(closeSerialPort()));
+
+    connect(ui->sendButton, SIGNAL(clicked()),
+            this, SLOT(readFromLineEdit()));
 }
 
 MainWindow::~MainWindow()

@@ -23,14 +23,18 @@ class MainWindow : public QMainWindow
 {
     Q_OBJECT
 
+signals:
+    void getData(const QByteArray &data);
+
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
 private slots:
       void openSerialPort();
-//    void closeSerialPort();
+      void closeSerialPort();
 //    void about();
+      void readFromLineEdit();
       void writeData(const QByteArray &data);
       void readData();
 
