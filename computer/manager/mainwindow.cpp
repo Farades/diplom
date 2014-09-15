@@ -1,6 +1,8 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "comdialog.h"
+#include "dronessetting.h"
+#include "controlparser.h"
 
 #include <QtSerialPort/QSerialPort>
 #include <QtSerialPort/QSerialPortInfo>
@@ -17,10 +19,15 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->sendButton->setEnabled(false);
     ui->lineEdit->setEnabled(false);
 
-    serial   = new QSerialPort(this);
-    settings = new ComDialog;
+    serial    = new QSerialPort(this);
+    settings  = new ComDialog;
+    dsettings = new dronesSetting;
+    cparser   = new ControlParser;
+
+    connectToCom = false;
 
     initActionsConnections();
+    initDronesTable();
 
     connect(serial, SIGNAL(readyRead()), this, SLOT(readData()));
     connect(this, SIGNAL(getData(QByteArray)), this, SLOT(writeData(QByteArray)));
@@ -36,6 +43,7 @@ void MainWindow::readData()
 {
     QByteArray data = serial->readAll();
     ui->plainTextEdit->insertPlainText(QString(data));
+    cparser->parseFromDrones(QString(data));
 }
 
 void MainWindow::readFromLineEdit()
@@ -43,6 +51,15 @@ void MainWindow::readFromLineEdit()
     QByteArray text = ui->lineEdit->text().toLocal8Bit();
     ui->lineEdit->setText("");
     emit getData(text);
+}
+
+void MainWindow::changeDronesTable()
+{
+}
+
+void MainWindow::changeDronesTableSize()
+{
+    dronesTable->setRowCount(dsettings->settings().size);
 }
 
 void MainWindow::openSerialPort()
@@ -59,6 +76,7 @@ void MainWindow::openSerialPort()
                                    .arg(p.name).arg(p.stringBaudRate).arg(p.stringDataBits)
                                    .arg(p.stringParity).arg(p.stringStopBits).arg(p.stringFlowControl));
         qDebug() << "Connected to" << p.name;
+        connectToCom = true;
     } else {
         QMessageBox::critical(this, tr("Error"), serial->errorString());
 
@@ -73,6 +91,7 @@ void MainWindow::openSerialPort()
 void MainWindow::closeSerialPort()
 {
     serial->close();
+    connectToCom = false;
     ui->sendButton->setEnabled(false);
     ui->connectButton->setEnabled(true);
     ui->disconnectButton->setEnabled(false);
@@ -84,15 +103,28 @@ void MainWindow::closeSerialPort()
 void MainWindow::initActionsConnections()
 {
     connect(ui->actionConfigure, SIGNAL(triggered()), settings, SLOT(show()));
+    connect(ui->actionDrone, SIGNAL(triggered()), dsettings, SLOT(show()));
     connect(ui->actionExit, SIGNAL(triggered()), this, SLOT(close()));
 
     connect(ui->connectButton, SIGNAL(clicked()),
             this, SLOT(openSerialPort()));
     connect(ui->disconnectButton, SIGNAL(clicked()),
             this, SLOT(closeSerialPort()));
+    connect(ui->refreshDroneTableSize, SIGNAL(clicked()),
+            this, SLOT(changeDronesTableSize()));
 
     connect(ui->sendButton, SIGNAL(clicked()),
             this, SLOT(readFromLineEdit()));
+}
+
+void MainWindow::initDronesTable()
+{
+    dronesTable = ui->dronesTable;
+    dronesTable->setColumnCount(2);
+    dronesTable->setRowCount(1);
+    QStringList lst;
+    lst << "ID" << "Status";
+    dronesTable->setHorizontalHeaderLabels(lst);
 }
 
 MainWindow::~MainWindow()

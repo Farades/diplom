@@ -47,13 +47,19 @@ OBJECTS_DIR   = ./
 
 SOURCES       = ../manager/main.cpp \
 		../manager/mainwindow.cpp \
-		../manager/comdialog.cpp moc_mainwindow.cpp \
-		moc_comdialog.cpp
+		../manager/comdialog.cpp \
+		../manager/dronessetting.cpp \
+		../manager/controlparser.cpp moc_mainwindow.cpp \
+		moc_comdialog.cpp \
+		moc_dronessetting.cpp
 OBJECTS       = main.o \
 		mainwindow.o \
 		comdialog.o \
+		dronessetting.o \
+		controlparser.o \
 		moc_mainwindow.o \
-		moc_comdialog.o
+		moc_comdialog.o \
+		moc_dronessetting.o
 DIST          = ../../../../Qt/5.3/gcc/mkspecs/features/spec_pre.prf \
 		../../../../Qt/5.3/gcc/mkspecs/common/shell-unix.conf \
 		../../../../Qt/5.3/gcc/mkspecs/common/unix.conf \
@@ -163,7 +169,9 @@ DIST          = ../../../../Qt/5.3/gcc/mkspecs/features/spec_pre.prf \
 		../../../../Qt/5.3/gcc/mkspecs/features/lex.prf \
 		../manager/manager.pro ../manager/main.cpp \
 		../manager/mainwindow.cpp \
-		../manager/comdialog.cpp
+		../manager/comdialog.cpp \
+		../manager/dronessetting.cpp \
+		../manager/controlparser.cpp
 QMAKE_TARGET  = manager
 DESTDIR       = #avoid trailing-slash linebreak
 TARGET        = manager
@@ -193,7 +201,7 @@ first: all
 
 all: Makefile $(TARGET)
 
-$(TARGET): ui_mainwindow.h ui_comdialog.h $(OBJECTS)  
+$(TARGET): ui_mainwindow.h ui_comdialog.h ui_dronessetting.h $(OBJECTS)  
 	$(LINK) $(LFLAGS) -o $(TARGET) $(OBJECTS) $(OBJCOMP) $(LIBS)
 
 Makefile: ../manager/manager.pro ../../../../Qt/5.3/gcc/mkspecs/linux-g++/qmake.conf ../../../../Qt/5.3/gcc/mkspecs/features/spec_pre.prf \
@@ -428,7 +436,7 @@ qmake_all: FORCE
 
 dist: 
 	@test -d .tmp/manager1.0.0 || mkdir -p .tmp/manager1.0.0
-	$(COPY_FILE) --parents $(DIST) .tmp/manager1.0.0/ && $(COPY_FILE) --parents ../manager/mainwindow.h ../manager/comdialog.h .tmp/manager1.0.0/ && $(COPY_FILE) --parents ../manager/main.cpp ../manager/mainwindow.cpp ../manager/comdialog.cpp .tmp/manager1.0.0/ && $(COPY_FILE) --parents ../manager/mainwindow.ui ../manager/comdialog.ui .tmp/manager1.0.0/ && (cd `dirname .tmp/manager1.0.0` && $(TAR) manager1.0.0.tar manager1.0.0 && $(COMPRESS) manager1.0.0.tar) && $(MOVE) `dirname .tmp/manager1.0.0`/manager1.0.0.tar.gz . && $(DEL_FILE) -r .tmp/manager1.0.0
+	$(COPY_FILE) --parents $(DIST) .tmp/manager1.0.0/ && $(COPY_FILE) --parents ../manager/mainwindow.h ../manager/comdialog.h ../manager/dronessetting.h ../manager/controlparser.h .tmp/manager1.0.0/ && $(COPY_FILE) --parents ../manager/main.cpp ../manager/mainwindow.cpp ../manager/comdialog.cpp ../manager/dronessetting.cpp ../manager/controlparser.cpp .tmp/manager1.0.0/ && $(COPY_FILE) --parents ../manager/mainwindow.ui ../manager/comdialog.ui ../manager/dronessetting.ui .tmp/manager1.0.0/ && (cd `dirname .tmp/manager1.0.0` && $(TAR) manager1.0.0.tar manager1.0.0 && $(COMPRESS) manager1.0.0.tar) && $(MOVE) `dirname .tmp/manager1.0.0`/manager1.0.0.tar.gz . && $(DEL_FILE) -r .tmp/manager1.0.0
 
 
 clean:compiler_clean 
@@ -451,9 +459,9 @@ check: first
 
 compiler_rcc_make_all:
 compiler_rcc_clean:
-compiler_moc_header_make_all: moc_mainwindow.cpp moc_comdialog.cpp
+compiler_moc_header_make_all: moc_mainwindow.cpp moc_comdialog.cpp moc_dronessetting.cpp
 compiler_moc_header_clean:
-	-$(DEL_FILE) moc_mainwindow.cpp moc_comdialog.cpp
+	-$(DEL_FILE) moc_mainwindow.cpp moc_comdialog.cpp moc_dronessetting.cpp
 moc_mainwindow.cpp: ../../../../Qt/5.3/gcc/include/QtCore/QtGlobal \
 		../../../../Qt/5.3/gcc/include/QtCore/qglobal.h \
 		../../../../Qt/5.3/gcc/include/QtCore/qconfig.h \
@@ -667,19 +675,131 @@ moc_comdialog.cpp: ../../../../Qt/5.3/gcc/include/QtWidgets/QDialog \
 		../../../../Qt/5.3/gcc/include/QtCore/qfiledevice.h \
 		../../../../Qt/5.3/gcc/include/QtGui/qvector2d.h \
 		../../../../Qt/5.3/gcc/include/QtGui/qtouchdevice.h \
+		../../../../Qt/5.3/gcc/include/QtSerialPort/QSerialPort \
+		../../../../Qt/5.3/gcc/include/QtSerialPort/qserialport.h \
+		../../../../Qt/5.3/gcc/include/QtSerialPort/qserialportglobal.h \
+		../../../../Qt/5.3/gcc/include/QtSerialPort/QSerialPortInfo \
+		../../../../Qt/5.3/gcc/include/QtSerialPort/qserialportinfo.h \
 		../manager/comdialog.h
 	/home/farades/Qt/5.3/gcc/bin/moc $(DEFINES) -I/home/farades/Qt/5.3/gcc/mkspecs/linux-g++ -I/home/farades/workspace/diplom/computer/manager -I/home/farades/Qt/5.3/gcc/include -I/home/farades/Qt/5.3/gcc/include/QtWidgets -I/home/farades/Qt/5.3/gcc/include/QtSerialPort -I/home/farades/Qt/5.3/gcc/include/QtGui -I/home/farades/Qt/5.3/gcc/include/QtCore -I. ../manager/comdialog.h -o moc_comdialog.cpp
 
+moc_dronessetting.cpp: ../../../../Qt/5.3/gcc/include/QtWidgets/QDialog \
+		../../../../Qt/5.3/gcc/include/QtWidgets/qdialog.h \
+		../../../../Qt/5.3/gcc/include/QtWidgets/qwidget.h \
+		../../../../Qt/5.3/gcc/include/QtGui/qwindowdefs.h \
+		../../../../Qt/5.3/gcc/include/QtCore/qglobal.h \
+		../../../../Qt/5.3/gcc/include/QtCore/qconfig.h \
+		../../../../Qt/5.3/gcc/include/QtCore/qfeatures.h \
+		../../../../Qt/5.3/gcc/include/QtCore/qsystemdetection.h \
+		../../../../Qt/5.3/gcc/include/QtCore/qprocessordetection.h \
+		../../../../Qt/5.3/gcc/include/QtCore/qcompilerdetection.h \
+		../../../../Qt/5.3/gcc/include/QtCore/qtypeinfo.h \
+		../../../../Qt/5.3/gcc/include/QtCore/qtypetraits.h \
+		../../../../Qt/5.3/gcc/include/QtCore/qsysinfo.h \
+		../../../../Qt/5.3/gcc/include/QtCore/qlogging.h \
+		../../../../Qt/5.3/gcc/include/QtCore/qflags.h \
+		../../../../Qt/5.3/gcc/include/QtCore/qatomic.h \
+		../../../../Qt/5.3/gcc/include/QtCore/qbasicatomic.h \
+		../../../../Qt/5.3/gcc/include/QtCore/qatomic_bootstrap.h \
+		../../../../Qt/5.3/gcc/include/QtCore/qgenericatomic.h \
+		../../../../Qt/5.3/gcc/include/QtCore/qatomic_msvc.h \
+		../../../../Qt/5.3/gcc/include/QtCore/qatomic_armv7.h \
+		../../../../Qt/5.3/gcc/include/QtCore/qatomic_armv6.h \
+		../../../../Qt/5.3/gcc/include/QtCore/qatomic_armv5.h \
+		../../../../Qt/5.3/gcc/include/QtCore/qatomic_ia64.h \
+		../../../../Qt/5.3/gcc/include/QtCore/qatomic_mips.h \
+		../../../../Qt/5.3/gcc/include/QtCore/qatomic_x86.h \
+		../../../../Qt/5.3/gcc/include/QtCore/qatomic_cxx11.h \
+		../../../../Qt/5.3/gcc/include/QtCore/qatomic_gcc.h \
+		../../../../Qt/5.3/gcc/include/QtCore/qatomic_unix.h \
+		../../../../Qt/5.3/gcc/include/QtCore/qglobalstatic.h \
+		../../../../Qt/5.3/gcc/include/QtCore/qmutex.h \
+		../../../../Qt/5.3/gcc/include/QtCore/qnumeric.h \
+		../../../../Qt/5.3/gcc/include/QtCore/qobjectdefs.h \
+		../../../../Qt/5.3/gcc/include/QtCore/qnamespace.h \
+		../../../../Qt/5.3/gcc/include/QtCore/qobjectdefs_impl.h \
+		../../../../Qt/5.3/gcc/include/QtGui/qwindowdefs_win.h \
+		../../../../Qt/5.3/gcc/include/QtCore/qobject.h \
+		../../../../Qt/5.3/gcc/include/QtCore/qstring.h \
+		../../../../Qt/5.3/gcc/include/QtCore/qchar.h \
+		../../../../Qt/5.3/gcc/include/QtCore/qbytearray.h \
+		../../../../Qt/5.3/gcc/include/QtCore/qrefcount.h \
+		../../../../Qt/5.3/gcc/include/QtCore/qarraydata.h \
+		../../../../Qt/5.3/gcc/include/QtCore/qstringbuilder.h \
+		../../../../Qt/5.3/gcc/include/QtCore/qlist.h \
+		../../../../Qt/5.3/gcc/include/QtCore/qalgorithms.h \
+		../../../../Qt/5.3/gcc/include/QtCore/qiterator.h \
+		../../../../Qt/5.3/gcc/include/QtCore/qcoreevent.h \
+		../../../../Qt/5.3/gcc/include/QtCore/qscopedpointer.h \
+		../../../../Qt/5.3/gcc/include/QtCore/qmetatype.h \
+		../../../../Qt/5.3/gcc/include/QtCore/qvarlengtharray.h \
+		../../../../Qt/5.3/gcc/include/QtCore/qcontainerfwd.h \
+		../../../../Qt/5.3/gcc/include/QtCore/qisenum.h \
+		../../../../Qt/5.3/gcc/include/QtCore/qobject_impl.h \
+		../../../../Qt/5.3/gcc/include/QtCore/qmargins.h \
+		../../../../Qt/5.3/gcc/include/QtGui/qpaintdevice.h \
+		../../../../Qt/5.3/gcc/include/QtCore/qrect.h \
+		../../../../Qt/5.3/gcc/include/QtCore/qsize.h \
+		../../../../Qt/5.3/gcc/include/QtCore/qpoint.h \
+		../../../../Qt/5.3/gcc/include/QtGui/qpalette.h \
+		../../../../Qt/5.3/gcc/include/QtGui/qcolor.h \
+		../../../../Qt/5.3/gcc/include/QtGui/qrgb.h \
+		../../../../Qt/5.3/gcc/include/QtCore/qstringlist.h \
+		../../../../Qt/5.3/gcc/include/QtCore/qdatastream.h \
+		../../../../Qt/5.3/gcc/include/QtCore/qiodevice.h \
+		../../../../Qt/5.3/gcc/include/QtCore/qpair.h \
+		../../../../Qt/5.3/gcc/include/QtCore/qregexp.h \
+		../../../../Qt/5.3/gcc/include/QtCore/qstringmatcher.h \
+		../../../../Qt/5.3/gcc/include/QtGui/qbrush.h \
+		../../../../Qt/5.3/gcc/include/QtCore/qvector.h \
+		../../../../Qt/5.3/gcc/include/QtGui/qmatrix.h \
+		../../../../Qt/5.3/gcc/include/QtGui/qpolygon.h \
+		../../../../Qt/5.3/gcc/include/QtGui/qregion.h \
+		../../../../Qt/5.3/gcc/include/QtCore/qline.h \
+		../../../../Qt/5.3/gcc/include/QtGui/qtransform.h \
+		../../../../Qt/5.3/gcc/include/QtGui/qpainterpath.h \
+		../../../../Qt/5.3/gcc/include/QtGui/qimage.h \
+		../../../../Qt/5.3/gcc/include/QtGui/qpixmap.h \
+		../../../../Qt/5.3/gcc/include/QtCore/qsharedpointer.h \
+		../../../../Qt/5.3/gcc/include/QtCore/qshareddata.h \
+		../../../../Qt/5.3/gcc/include/QtCore/qsharedpointer_impl.h \
+		../../../../Qt/5.3/gcc/include/QtCore/qhash.h \
+		../../../../Qt/5.3/gcc/include/QtGui/qfont.h \
+		../../../../Qt/5.3/gcc/include/QtGui/qfontmetrics.h \
+		../../../../Qt/5.3/gcc/include/QtGui/qfontinfo.h \
+		../../../../Qt/5.3/gcc/include/QtWidgets/qsizepolicy.h \
+		../../../../Qt/5.3/gcc/include/QtGui/qcursor.h \
+		../../../../Qt/5.3/gcc/include/QtGui/qkeysequence.h \
+		../../../../Qt/5.3/gcc/include/QtGui/qevent.h \
+		../../../../Qt/5.3/gcc/include/QtCore/qvariant.h \
+		../../../../Qt/5.3/gcc/include/QtCore/qmap.h \
+		../../../../Qt/5.3/gcc/include/QtCore/qdebug.h \
+		../../../../Qt/5.3/gcc/include/QtCore/qtextstream.h \
+		../../../../Qt/5.3/gcc/include/QtCore/qlocale.h \
+		../../../../Qt/5.3/gcc/include/QtCore/qset.h \
+		../../../../Qt/5.3/gcc/include/QtCore/qcontiguouscache.h \
+		../../../../Qt/5.3/gcc/include/QtCore/qurl.h \
+		../../../../Qt/5.3/gcc/include/QtCore/qurlquery.h \
+		../../../../Qt/5.3/gcc/include/QtCore/qfile.h \
+		../../../../Qt/5.3/gcc/include/QtCore/qfiledevice.h \
+		../../../../Qt/5.3/gcc/include/QtGui/qvector2d.h \
+		../../../../Qt/5.3/gcc/include/QtGui/qtouchdevice.h \
+		../manager/dronessetting.h
+	/home/farades/Qt/5.3/gcc/bin/moc $(DEFINES) -I/home/farades/Qt/5.3/gcc/mkspecs/linux-g++ -I/home/farades/workspace/diplom/computer/manager -I/home/farades/Qt/5.3/gcc/include -I/home/farades/Qt/5.3/gcc/include/QtWidgets -I/home/farades/Qt/5.3/gcc/include/QtSerialPort -I/home/farades/Qt/5.3/gcc/include/QtGui -I/home/farades/Qt/5.3/gcc/include/QtCore -I. ../manager/dronessetting.h -o moc_dronessetting.cpp
+
 compiler_moc_source_make_all:
 compiler_moc_source_clean:
-compiler_uic_make_all: ui_mainwindow.h ui_comdialog.h
+compiler_uic_make_all: ui_mainwindow.h ui_comdialog.h ui_dronessetting.h
 compiler_uic_clean:
-	-$(DEL_FILE) ui_mainwindow.h ui_comdialog.h
+	-$(DEL_FILE) ui_mainwindow.h ui_comdialog.h ui_dronessetting.h
 ui_mainwindow.h: ../manager/mainwindow.ui
 	/home/farades/Qt/5.3/gcc/bin/uic ../manager/mainwindow.ui -o ui_mainwindow.h
 
 ui_comdialog.h: ../manager/comdialog.ui
 	/home/farades/Qt/5.3/gcc/bin/uic ../manager/comdialog.ui -o ui_comdialog.h
+
+ui_dronessetting.h: ../manager/dronessetting.ui
+	/home/farades/Qt/5.3/gcc/bin/uic ../manager/dronessetting.ui -o ui_dronessetting.h
 
 compiler_yacc_decl_make_all:
 compiler_yacc_decl_clean:
@@ -934,6 +1054,11 @@ mainwindow.o: ../manager/mainwindow.cpp ../manager/mainwindow.h \
 		../../../../Qt/5.3/gcc/include/QtGui/qinputmethod.h \
 		../../../../Qt/5.3/gcc/include/QtWidgets/QButtonGroup \
 		../../../../Qt/5.3/gcc/include/QtWidgets/qbuttongroup.h \
+		../../../../Qt/5.3/gcc/include/QtWidgets/QHBoxLayout \
+		../../../../Qt/5.3/gcc/include/QtWidgets/qboxlayout.h \
+		../../../../Qt/5.3/gcc/include/QtWidgets/qlayout.h \
+		../../../../Qt/5.3/gcc/include/QtWidgets/qlayoutitem.h \
+		../../../../Qt/5.3/gcc/include/QtWidgets/qgridlayout.h \
 		../../../../Qt/5.3/gcc/include/QtWidgets/QHeaderView \
 		../../../../Qt/5.3/gcc/include/QtWidgets/qheaderview.h \
 		../../../../Qt/5.3/gcc/include/QtWidgets/qabstractitemview.h \
@@ -951,21 +1076,43 @@ mainwindow.o: ../manager/mainwindow.cpp ../manager/mainwindow.h \
 		../../../../Qt/5.3/gcc/include/QtWidgets/qstyle.h \
 		../../../../Qt/5.3/gcc/include/QtWidgets/qtabbar.h \
 		../../../../Qt/5.3/gcc/include/QtWidgets/qrubberband.h \
+		../../../../Qt/5.3/gcc/include/QtWidgets/QLineEdit \
+		../../../../Qt/5.3/gcc/include/QtWidgets/qlineedit.h \
+		../../../../Qt/5.3/gcc/include/QtGui/qtextcursor.h \
+		../../../../Qt/5.3/gcc/include/QtGui/qtextformat.h \
+		../../../../Qt/5.3/gcc/include/QtGui/qpen.h \
+		../../../../Qt/5.3/gcc/include/QtGui/qtextoption.h \
 		../../../../Qt/5.3/gcc/include/QtWidgets/QMenu \
 		../../../../Qt/5.3/gcc/include/QtWidgets/qmenu.h \
 		../../../../Qt/5.3/gcc/include/QtWidgets/QMenuBar \
 		../../../../Qt/5.3/gcc/include/QtWidgets/qmenubar.h \
+		../../../../Qt/5.3/gcc/include/QtWidgets/QPlainTextEdit \
+		../../../../Qt/5.3/gcc/include/QtWidgets/qplaintextedit.h \
+		../../../../Qt/5.3/gcc/include/QtWidgets/qtextedit.h \
+		../../../../Qt/5.3/gcc/include/QtGui/qtextdocument.h \
+		../../../../Qt/5.3/gcc/include/QtGui/qabstracttextdocumentlayout.h \
+		../../../../Qt/5.3/gcc/include/QtGui/qtextlayout.h \
+		../../../../Qt/5.3/gcc/include/QtGui/qglyphrun.h \
+		../../../../Qt/5.3/gcc/include/QtGui/qrawfont.h \
+		../../../../Qt/5.3/gcc/include/QtGui/qfontdatabase.h \
+		../../../../Qt/5.3/gcc/include/QtWidgets/QPushButton \
+		../../../../Qt/5.3/gcc/include/QtWidgets/qpushbutton.h \
+		../../../../Qt/5.3/gcc/include/QtWidgets/qabstractbutton.h \
 		../../../../Qt/5.3/gcc/include/QtWidgets/QStatusBar \
 		../../../../Qt/5.3/gcc/include/QtWidgets/qstatusbar.h \
+		../../../../Qt/5.3/gcc/include/QtWidgets/QTabWidget \
+		../../../../Qt/5.3/gcc/include/QtWidgets/QTableWidget \
+		../../../../Qt/5.3/gcc/include/QtWidgets/qtablewidget.h \
+		../../../../Qt/5.3/gcc/include/QtWidgets/qtableview.h \
 		../../../../Qt/5.3/gcc/include/QtWidgets/QVBoxLayout \
-		../../../../Qt/5.3/gcc/include/QtWidgets/qboxlayout.h \
-		../../../../Qt/5.3/gcc/include/QtWidgets/qlayout.h \
-		../../../../Qt/5.3/gcc/include/QtWidgets/qlayoutitem.h \
-		../../../../Qt/5.3/gcc/include/QtWidgets/qgridlayout.h \
 		../../../../Qt/5.3/gcc/include/QtWidgets/QWidget \
 		../manager/comdialog.h \
 		../../../../Qt/5.3/gcc/include/QtWidgets/QDialog \
-		../../../../Qt/5.3/gcc/include/QtWidgets/qdialog.h
+		../../../../Qt/5.3/gcc/include/QtWidgets/qdialog.h \
+		../manager/dronessetting.h \
+		../../../../Qt/5.3/gcc/include/QtWidgets/QMessageBox \
+		../../../../Qt/5.3/gcc/include/QtWidgets/qmessagebox.h \
+		../../../../Qt/5.3/gcc/include/QtCore/QDebug
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o mainwindow.o ../manager/mainwindow.cpp
 
 comdialog.o: ../manager/comdialog.cpp ../manager/comdialog.h \
@@ -1070,6 +1217,11 @@ comdialog.o: ../manager/comdialog.cpp ../manager/comdialog.h \
 		../../../../Qt/5.3/gcc/include/QtCore/qfiledevice.h \
 		../../../../Qt/5.3/gcc/include/QtGui/qvector2d.h \
 		../../../../Qt/5.3/gcc/include/QtGui/qtouchdevice.h \
+		../../../../Qt/5.3/gcc/include/QtSerialPort/QSerialPort \
+		../../../../Qt/5.3/gcc/include/QtSerialPort/qserialport.h \
+		../../../../Qt/5.3/gcc/include/QtSerialPort/qserialportglobal.h \
+		../../../../Qt/5.3/gcc/include/QtSerialPort/QSerialPortInfo \
+		../../../../Qt/5.3/gcc/include/QtSerialPort/qserialportinfo.h \
 		ui_comdialog.h \
 		../../../../Qt/5.3/gcc/include/QtCore/QVariant \
 		../../../../Qt/5.3/gcc/include/QtWidgets/QAction \
@@ -1119,14 +1271,177 @@ comdialog.o: ../manager/comdialog.cpp ../manager/comdialog.h \
 		../../../../Qt/5.3/gcc/include/QtWidgets/qpushbutton.h \
 		../../../../Qt/5.3/gcc/include/QtWidgets/qabstractbutton.h \
 		../../../../Qt/5.3/gcc/include/QtWidgets/QSpacerItem \
-		../../../../Qt/5.3/gcc/include/QtWidgets/QVBoxLayout
+		../../../../Qt/5.3/gcc/include/QtWidgets/QVBoxLayout \
+		../../../../Qt/5.3/gcc/include/QtWidgets/QLineEdit \
+		../../../../Qt/5.3/gcc/include/QtWidgets/qlineedit.h \
+		../../../../Qt/5.3/gcc/include/QtGui/qtextcursor.h \
+		../../../../Qt/5.3/gcc/include/QtGui/qtextformat.h \
+		../../../../Qt/5.3/gcc/include/QtGui/qpen.h \
+		../../../../Qt/5.3/gcc/include/QtGui/qtextoption.h \
+		../../../../Qt/5.3/gcc/include/QtCore/QDebug
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o comdialog.o ../manager/comdialog.cpp
+
+dronessetting.o: ../manager/dronessetting.cpp ../manager/dronessetting.h \
+		../../../../Qt/5.3/gcc/include/QtWidgets/QDialog \
+		../../../../Qt/5.3/gcc/include/QtWidgets/qdialog.h \
+		../../../../Qt/5.3/gcc/include/QtWidgets/qwidget.h \
+		../../../../Qt/5.3/gcc/include/QtGui/qwindowdefs.h \
+		../../../../Qt/5.3/gcc/include/QtCore/qglobal.h \
+		../../../../Qt/5.3/gcc/include/QtCore/qconfig.h \
+		../../../../Qt/5.3/gcc/include/QtCore/qfeatures.h \
+		../../../../Qt/5.3/gcc/include/QtCore/qsystemdetection.h \
+		../../../../Qt/5.3/gcc/include/QtCore/qprocessordetection.h \
+		../../../../Qt/5.3/gcc/include/QtCore/qcompilerdetection.h \
+		../../../../Qt/5.3/gcc/include/QtCore/qtypeinfo.h \
+		../../../../Qt/5.3/gcc/include/QtCore/qtypetraits.h \
+		../../../../Qt/5.3/gcc/include/QtCore/qsysinfo.h \
+		../../../../Qt/5.3/gcc/include/QtCore/qlogging.h \
+		../../../../Qt/5.3/gcc/include/QtCore/qflags.h \
+		../../../../Qt/5.3/gcc/include/QtCore/qatomic.h \
+		../../../../Qt/5.3/gcc/include/QtCore/qbasicatomic.h \
+		../../../../Qt/5.3/gcc/include/QtCore/qatomic_bootstrap.h \
+		../../../../Qt/5.3/gcc/include/QtCore/qgenericatomic.h \
+		../../../../Qt/5.3/gcc/include/QtCore/qatomic_msvc.h \
+		../../../../Qt/5.3/gcc/include/QtCore/qatomic_armv7.h \
+		../../../../Qt/5.3/gcc/include/QtCore/qatomic_armv6.h \
+		../../../../Qt/5.3/gcc/include/QtCore/qatomic_armv5.h \
+		../../../../Qt/5.3/gcc/include/QtCore/qatomic_ia64.h \
+		../../../../Qt/5.3/gcc/include/QtCore/qatomic_mips.h \
+		../../../../Qt/5.3/gcc/include/QtCore/qatomic_x86.h \
+		../../../../Qt/5.3/gcc/include/QtCore/qatomic_cxx11.h \
+		../../../../Qt/5.3/gcc/include/QtCore/qatomic_gcc.h \
+		../../../../Qt/5.3/gcc/include/QtCore/qatomic_unix.h \
+		../../../../Qt/5.3/gcc/include/QtCore/qglobalstatic.h \
+		../../../../Qt/5.3/gcc/include/QtCore/qmutex.h \
+		../../../../Qt/5.3/gcc/include/QtCore/qnumeric.h \
+		../../../../Qt/5.3/gcc/include/QtCore/qobjectdefs.h \
+		../../../../Qt/5.3/gcc/include/QtCore/qnamespace.h \
+		../../../../Qt/5.3/gcc/include/QtCore/qobjectdefs_impl.h \
+		../../../../Qt/5.3/gcc/include/QtGui/qwindowdefs_win.h \
+		../../../../Qt/5.3/gcc/include/QtCore/qobject.h \
+		../../../../Qt/5.3/gcc/include/QtCore/qstring.h \
+		../../../../Qt/5.3/gcc/include/QtCore/qchar.h \
+		../../../../Qt/5.3/gcc/include/QtCore/qbytearray.h \
+		../../../../Qt/5.3/gcc/include/QtCore/qrefcount.h \
+		../../../../Qt/5.3/gcc/include/QtCore/qarraydata.h \
+		../../../../Qt/5.3/gcc/include/QtCore/qstringbuilder.h \
+		../../../../Qt/5.3/gcc/include/QtCore/qlist.h \
+		../../../../Qt/5.3/gcc/include/QtCore/qalgorithms.h \
+		../../../../Qt/5.3/gcc/include/QtCore/qiterator.h \
+		../../../../Qt/5.3/gcc/include/QtCore/qcoreevent.h \
+		../../../../Qt/5.3/gcc/include/QtCore/qscopedpointer.h \
+		../../../../Qt/5.3/gcc/include/QtCore/qmetatype.h \
+		../../../../Qt/5.3/gcc/include/QtCore/qvarlengtharray.h \
+		../../../../Qt/5.3/gcc/include/QtCore/qcontainerfwd.h \
+		../../../../Qt/5.3/gcc/include/QtCore/qisenum.h \
+		../../../../Qt/5.3/gcc/include/QtCore/qobject_impl.h \
+		../../../../Qt/5.3/gcc/include/QtCore/qmargins.h \
+		../../../../Qt/5.3/gcc/include/QtGui/qpaintdevice.h \
+		../../../../Qt/5.3/gcc/include/QtCore/qrect.h \
+		../../../../Qt/5.3/gcc/include/QtCore/qsize.h \
+		../../../../Qt/5.3/gcc/include/QtCore/qpoint.h \
+		../../../../Qt/5.3/gcc/include/QtGui/qpalette.h \
+		../../../../Qt/5.3/gcc/include/QtGui/qcolor.h \
+		../../../../Qt/5.3/gcc/include/QtGui/qrgb.h \
+		../../../../Qt/5.3/gcc/include/QtCore/qstringlist.h \
+		../../../../Qt/5.3/gcc/include/QtCore/qdatastream.h \
+		../../../../Qt/5.3/gcc/include/QtCore/qiodevice.h \
+		../../../../Qt/5.3/gcc/include/QtCore/qpair.h \
+		../../../../Qt/5.3/gcc/include/QtCore/qregexp.h \
+		../../../../Qt/5.3/gcc/include/QtCore/qstringmatcher.h \
+		../../../../Qt/5.3/gcc/include/QtGui/qbrush.h \
+		../../../../Qt/5.3/gcc/include/QtCore/qvector.h \
+		../../../../Qt/5.3/gcc/include/QtGui/qmatrix.h \
+		../../../../Qt/5.3/gcc/include/QtGui/qpolygon.h \
+		../../../../Qt/5.3/gcc/include/QtGui/qregion.h \
+		../../../../Qt/5.3/gcc/include/QtCore/qline.h \
+		../../../../Qt/5.3/gcc/include/QtGui/qtransform.h \
+		../../../../Qt/5.3/gcc/include/QtGui/qpainterpath.h \
+		../../../../Qt/5.3/gcc/include/QtGui/qimage.h \
+		../../../../Qt/5.3/gcc/include/QtGui/qpixmap.h \
+		../../../../Qt/5.3/gcc/include/QtCore/qsharedpointer.h \
+		../../../../Qt/5.3/gcc/include/QtCore/qshareddata.h \
+		../../../../Qt/5.3/gcc/include/QtCore/qsharedpointer_impl.h \
+		../../../../Qt/5.3/gcc/include/QtCore/qhash.h \
+		../../../../Qt/5.3/gcc/include/QtGui/qfont.h \
+		../../../../Qt/5.3/gcc/include/QtGui/qfontmetrics.h \
+		../../../../Qt/5.3/gcc/include/QtGui/qfontinfo.h \
+		../../../../Qt/5.3/gcc/include/QtWidgets/qsizepolicy.h \
+		../../../../Qt/5.3/gcc/include/QtGui/qcursor.h \
+		../../../../Qt/5.3/gcc/include/QtGui/qkeysequence.h \
+		../../../../Qt/5.3/gcc/include/QtGui/qevent.h \
+		../../../../Qt/5.3/gcc/include/QtCore/qvariant.h \
+		../../../../Qt/5.3/gcc/include/QtCore/qmap.h \
+		../../../../Qt/5.3/gcc/include/QtCore/qdebug.h \
+		../../../../Qt/5.3/gcc/include/QtCore/qtextstream.h \
+		../../../../Qt/5.3/gcc/include/QtCore/qlocale.h \
+		../../../../Qt/5.3/gcc/include/QtCore/qset.h \
+		../../../../Qt/5.3/gcc/include/QtCore/qcontiguouscache.h \
+		../../../../Qt/5.3/gcc/include/QtCore/qurl.h \
+		../../../../Qt/5.3/gcc/include/QtCore/qurlquery.h \
+		../../../../Qt/5.3/gcc/include/QtCore/qfile.h \
+		../../../../Qt/5.3/gcc/include/QtCore/qfiledevice.h \
+		../../../../Qt/5.3/gcc/include/QtGui/qvector2d.h \
+		../../../../Qt/5.3/gcc/include/QtGui/qtouchdevice.h \
+		ui_dronessetting.h \
+		../../../../Qt/5.3/gcc/include/QtCore/QVariant \
+		../../../../Qt/5.3/gcc/include/QtWidgets/QAction \
+		../../../../Qt/5.3/gcc/include/QtWidgets/qaction.h \
+		../../../../Qt/5.3/gcc/include/QtGui/qicon.h \
+		../../../../Qt/5.3/gcc/include/QtWidgets/qactiongroup.h \
+		../../../../Qt/5.3/gcc/include/QtWidgets/QApplication \
+		../../../../Qt/5.3/gcc/include/QtWidgets/qapplication.h \
+		../../../../Qt/5.3/gcc/include/QtCore/qcoreapplication.h \
+		../../../../Qt/5.3/gcc/include/QtCore/qeventloop.h \
+		../../../../Qt/5.3/gcc/include/QtWidgets/qdesktopwidget.h \
+		../../../../Qt/5.3/gcc/include/QtGui/qguiapplication.h \
+		../../../../Qt/5.3/gcc/include/QtGui/qinputmethod.h \
+		../../../../Qt/5.3/gcc/include/QtWidgets/QButtonGroup \
+		../../../../Qt/5.3/gcc/include/QtWidgets/qbuttongroup.h \
+		../../../../Qt/5.3/gcc/include/QtWidgets/QHBoxLayout \
+		../../../../Qt/5.3/gcc/include/QtWidgets/qboxlayout.h \
+		../../../../Qt/5.3/gcc/include/QtWidgets/qlayout.h \
+		../../../../Qt/5.3/gcc/include/QtWidgets/qlayoutitem.h \
+		../../../../Qt/5.3/gcc/include/QtWidgets/qgridlayout.h \
+		../../../../Qt/5.3/gcc/include/QtWidgets/QHeaderView \
+		../../../../Qt/5.3/gcc/include/QtWidgets/qheaderview.h \
+		../../../../Qt/5.3/gcc/include/QtWidgets/qabstractitemview.h \
+		../../../../Qt/5.3/gcc/include/QtWidgets/qabstractscrollarea.h \
+		../../../../Qt/5.3/gcc/include/QtWidgets/qframe.h \
+		../../../../Qt/5.3/gcc/include/QtCore/qabstractitemmodel.h \
+		../../../../Qt/5.3/gcc/include/QtCore/qitemselectionmodel.h \
+		../../../../Qt/5.3/gcc/include/QtWidgets/qabstractitemdelegate.h \
+		../../../../Qt/5.3/gcc/include/QtWidgets/qstyleoption.h \
+		../../../../Qt/5.3/gcc/include/QtWidgets/qabstractspinbox.h \
+		../../../../Qt/5.3/gcc/include/QtGui/qvalidator.h \
+		../../../../Qt/5.3/gcc/include/QtCore/qregularexpression.h \
+		../../../../Qt/5.3/gcc/include/QtWidgets/qslider.h \
+		../../../../Qt/5.3/gcc/include/QtWidgets/qabstractslider.h \
+		../../../../Qt/5.3/gcc/include/QtWidgets/qstyle.h \
+		../../../../Qt/5.3/gcc/include/QtWidgets/qtabbar.h \
+		../../../../Qt/5.3/gcc/include/QtWidgets/qtabwidget.h \
+		../../../../Qt/5.3/gcc/include/QtWidgets/qrubberband.h \
+		../../../../Qt/5.3/gcc/include/QtWidgets/QLabel \
+		../../../../Qt/5.3/gcc/include/QtWidgets/qlabel.h \
+		../../../../Qt/5.3/gcc/include/QtWidgets/QPushButton \
+		../../../../Qt/5.3/gcc/include/QtWidgets/qpushbutton.h \
+		../../../../Qt/5.3/gcc/include/QtWidgets/qabstractbutton.h \
+		../../../../Qt/5.3/gcc/include/QtWidgets/QSpinBox \
+		../../../../Qt/5.3/gcc/include/QtWidgets/qspinbox.h \
+		../../../../Qt/5.3/gcc/include/QtWidgets/QVBoxLayout
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o dronessetting.o ../manager/dronessetting.cpp
+
+controlparser.o: ../manager/controlparser.cpp ../manager/controlparser.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o controlparser.o ../manager/controlparser.cpp
 
 moc_mainwindow.o: moc_mainwindow.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_mainwindow.o moc_mainwindow.cpp
 
 moc_comdialog.o: moc_comdialog.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_comdialog.o moc_comdialog.cpp
+
+moc_dronessetting.o: moc_dronessetting.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_dronessetting.o moc_dronessetting.cpp
 
 ####### Install
 

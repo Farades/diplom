@@ -19,8 +19,8 @@
 
 QT_BEGIN_MOC_NAMESPACE
 struct qt_meta_stringdata_MainWindow_t {
-    QByteArrayData data[9];
-    char stringdata[92];
+    QByteArrayData data[11];
+    char stringdata[132];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -37,11 +37,14 @@ QT_MOC_LITERAL(4, 25, 14),
 QT_MOC_LITERAL(5, 40, 15),
 QT_MOC_LITERAL(6, 56, 16),
 QT_MOC_LITERAL(7, 73, 9),
-QT_MOC_LITERAL(8, 83, 8)
+QT_MOC_LITERAL(8, 83, 8),
+QT_MOC_LITERAL(9, 92, 17),
+QT_MOC_LITERAL(10, 110, 21)
     },
     "MainWindow\0getData\0\0data\0openSerialPort\0"
     "closeSerialPort\0readFromLineEdit\0"
-    "writeData\0readData"
+    "writeData\0readData\0changeDronesTable\0"
+    "changeDronesTableSize"
 };
 #undef QT_MOC_LITERAL
 
@@ -51,7 +54,7 @@ static const uint qt_meta_data_MainWindow[] = {
        7,       // revision
        0,       // classname
        0,    0, // classinfo
-       6,   14, // methods
+       8,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -59,14 +62,16 @@ static const uint qt_meta_data_MainWindow[] = {
        1,       // signalCount
 
  // signals: name, argc, parameters, tag, flags
-       1,    1,   44,    2, 0x06 /* Public */,
+       1,    1,   54,    2, 0x06 /* Public */,
 
  // slots: name, argc, parameters, tag, flags
-       4,    0,   47,    2, 0x08 /* Private */,
-       5,    0,   48,    2, 0x08 /* Private */,
-       6,    0,   49,    2, 0x08 /* Private */,
-       7,    1,   50,    2, 0x08 /* Private */,
-       8,    0,   53,    2, 0x08 /* Private */,
+       4,    0,   57,    2, 0x08 /* Private */,
+       5,    0,   58,    2, 0x08 /* Private */,
+       6,    0,   59,    2, 0x08 /* Private */,
+       7,    1,   60,    2, 0x08 /* Private */,
+       8,    0,   63,    2, 0x08 /* Private */,
+       9,    0,   64,    2, 0x08 /* Private */,
+      10,    0,   65,    2, 0x08 /* Private */,
 
  // signals: parameters
     QMetaType::Void, QMetaType::QByteArray,    3,
@@ -76,6 +81,8 @@ static const uint qt_meta_data_MainWindow[] = {
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void, QMetaType::QByteArray,    3,
+    QMetaType::Void,
+    QMetaType::Void,
     QMetaType::Void,
 
        0        // eod
@@ -92,6 +99,8 @@ void MainWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, 
         case 3: _t->readFromLineEdit(); break;
         case 4: _t->writeData((*reinterpret_cast< const QByteArray(*)>(_a[1]))); break;
         case 5: _t->readData(); break;
+        case 6: _t->changeDronesTable(); break;
+        case 7: _t->changeDronesTableSize(); break;
         default: ;
         }
     } else if (_c == QMetaObject::IndexOfMethod) {
@@ -131,13 +140,13 @@ int MainWindow::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 6)
+        if (_id < 8)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 6;
+        _id -= 8;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 6)
+        if (_id < 8)
             *reinterpret_cast<int*>(_a[0]) = -1;
-        _id -= 6;
+        _id -= 8;
     }
     return _id;
 }

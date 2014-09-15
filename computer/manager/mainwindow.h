@@ -18,6 +18,9 @@ QT_END_NAMESPACE
 
 class Console;
 class ComDialog;
+class dronesSetting;
+class QTableWidget;
+class ControlParser;
 
 class MainWindow : public QMainWindow
 {
@@ -33,21 +36,27 @@ public:
 private slots:
       void openSerialPort();
       void closeSerialPort();
-//    void about();
       void readFromLineEdit();
       void writeData(const QByteArray &data);
       void readData();
 
-//    void handleError(QSerialPort::SerialPortError error);
+      void changeDronesTable();
+      void changeDronesTableSize();
 
 private:
     void initActionsConnections();
+    void initDronesTable();
 
 private:
     Ui::MainWindow *ui;
+    QTableWidget* dronesTable;
     Console *console;
     ComDialog *settings;
+    dronesSetting *dsettings;
     QSerialPort *serial;
+    ControlParser *cparser;
+
+    bool connectToCom;
 };
 
 #endif // MAINWINDOW_H

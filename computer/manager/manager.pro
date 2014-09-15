@@ -15,10 +15,15 @@ TEMPLATE = app
 
 SOURCES += main.cpp\
         mainwindow.cpp \
-    comdialog.cpp
+    comdialog.cpp \
+    dronessetting.cpp \
+    controlparser.cpp
 
 HEADERS  += mainwindow.h \
-    comdialog.h
+    comdialog.h \
+    dronessetting.h \
+    controlparser.h
 
 FORMS    += mainwindow.ui \
-    comdialog.ui
+    comdialog.ui \
+    dronessetting.ui
