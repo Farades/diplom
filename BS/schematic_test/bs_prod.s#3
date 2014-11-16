@@ -4032,7 +4032,7 @@ Wickmann</description>
 <instance part="F1" gate="1" x="40.64" y="60.96" rot="R90"/>
 <instance part="S1" gate="G$1" x="27.94" y="154.94"/>
 <instance part="GND8" gate="1" x="27.94" y="165.1" rot="R180"/>
-<instance part="R3" gate="G$1" x="96.52" y="124.46" rot="R270"/>
+<instance part="R3" gate="G$1" x="88.9" y="104.14"/>
 <instance part="LED2" gate="G$1" x="96.52" y="101.6"/>
 <instance part="GND9" gate="1" x="96.52" y="91.44"/>
 <instance part="C2" gate="G$1" x="101.6" y="43.18"/>
@@ -4342,19 +4342,19 @@ Wickmann</description>
 <wire x1="40.64" y1="55.88" x2="40.64" y2="48.26" width="0.1524" layer="91"/>
 </segment>
 </net>
+<net name="N$12" class="0">
+<segment>
+<pinref part="U1" gate="G$1" pin="PB1(OC1A)"/>
+<wire x1="78.74" y1="99.06" x2="83.82" y2="99.06" width="0.1524" layer="91"/>
+<pinref part="R3" gate="G$1" pin="1"/>
+<wire x1="83.82" y1="99.06" x2="83.82" y2="104.14" width="0.1524" layer="91"/>
+</segment>
+</net>
 <net name="N$13" class="0">
 <segment>
 <pinref part="R3" gate="G$1" pin="2"/>
 <pinref part="LED2" gate="G$1" pin="A"/>
-<wire x1="96.52" y1="119.38" x2="96.52" y2="104.14" width="0.1524" layer="91"/>
-</segment>
-</net>
-<net name="N$12" class="0">
-<segment>
-<pinref part="R3" gate="G$1" pin="1"/>
-<wire x1="96.52" y1="129.54" x2="96.52" y2="147.32" width="0.1524" layer="91"/>
-<pinref part="U1" gate="G$1" pin="PC0(ADC0)"/>
-<wire x1="96.52" y1="147.32" x2="78.74" y2="147.32" width="0.1524" layer="91"/>
+<wire x1="93.98" y1="104.14" x2="96.52" y2="104.14" width="0.1524" layer="91"/>
 </segment>
 </net>
 </nets>
