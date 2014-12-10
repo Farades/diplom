@@ -4436,20 +4436,20 @@ distributor RS 295-5429</description>
 <library name="myGps">
 <packages>
 <package name="UBLOX">
-<wire x1="-18" y1="-14" x2="-18" y2="12.492" width="0.127" layer="21"/>
-<wire x1="-18" y1="12.492" x2="18.492" y2="12.492" width="0.127" layer="21"/>
+<wire x1="-19" y1="-14" x2="-19" y2="12.492" width="0.127" layer="21"/>
+<wire x1="-19" y1="12.492" x2="18.492" y2="12.492" width="0.127" layer="21"/>
 <wire x1="18.492" y1="12.492" x2="18.492" y2="-14" width="0.127" layer="21"/>
-<wire x1="18.492" y1="-14" x2="-18" y2="-14" width="0.127" layer="21"/>
-<text x="-10.73" y="-16.56" size="2.1844" layer="25" font="vector">GPS/GLONASS</text>
+<wire x1="18.492" y1="-14" x2="-19" y2="-14" width="0.127" layer="21"/>
+<text x="-9.73" y="-16.56" size="1.9304" layer="25" font="vector" ratio="15">GPS/GLONASS</text>
 <pad name="P$1" x="-15" y="9.492" drill="3.2"/>
 <pad name="P$2" x="15.492" y="9.492" drill="3.2"/>
 <pad name="P$3" x="15.492" y="-11" drill="3.2"/>
 <pad name="P$4" x="-15" y="-11" drill="3.2"/>
-<wire x1="14" y1="-23" x2="14" y2="-48" width="0.127" layer="25"/>
-<wire x1="14" y1="-48" x2="-13" y2="-48" width="0.127" layer="25"/>
-<wire x1="-13" y1="-48" x2="-13" y2="-23" width="0.127" layer="25"/>
-<wire x1="-13" y1="-23" x2="14" y2="-23" width="0.127" layer="25"/>
-<text x="-14" y="-37" size="2.1844" layer="25" font="vector" rot="R90">ANT</text>
+<wire x1="14" y1="-21" x2="14" y2="-46" width="0.127" layer="25"/>
+<wire x1="14" y1="-46" x2="-13" y2="-46" width="0.127" layer="25"/>
+<wire x1="-13" y1="-46" x2="-13" y2="-21" width="0.127" layer="25"/>
+<wire x1="-13" y1="-21" x2="14" y2="-21" width="0.127" layer="25"/>
+<text x="-6" y="-37" size="1.9304" layer="25" font="vector" ratio="15" rot="R90">ANT</text>
 </package>
 </packages>
 <symbols>
@@ -4735,7 +4735,7 @@ Copyright: Würth Elektronik</description>
 <part name="SMA_RF2" library="con-coax" deviceset="BU-SMC-V" device=""/>
 <part name="GND16" library="SparkFun-Aesthetics" deviceset="GND" device=""/>
 <part name="R6" library="SparkFun-Resistors" deviceset="RESISTOR" device="1206" value="1k"/>
-<part name="RF2_RX/TX" library="SparkFun-LED" deviceset="LED" device="1206"/>
+<part name="2_RX/TX" library="SparkFun-LED" deviceset="LED" device="1206"/>
 <part name="GND17" library="SparkFun-Aesthetics" deviceset="GND" device=""/>
 <part name="SW1" library="Eagle_Wuerth_Elektronik_Switch" deviceset="418117270902" device=""/>
 <part name="JP1" library="SparkFun-Connectors" deviceset="M04" device="PTH"/>
@@ -4848,7 +4848,7 @@ Copyright: Würth Elektronik</description>
 </instance>
 <instance part="GND16" gate="1" x="165.1" y="127"/>
 <instance part="R6" gate="G$1" x="81.28" y="167.64"/>
-<instance part="RF2_RX/TX" gate="G$1" x="71.12" y="165.1"/>
+<instance part="2_RX/TX" gate="G$1" x="71.12" y="165.1"/>
 <instance part="GND17" gate="1" x="71.12" y="154.94"/>
 <instance part="SW1" gate="G$1" x="190.5" y="109.22" smashed="yes">
 <attribute name="NAME" x="195.58" y="108.966" size="1.778" layer="95"/>
@@ -5068,7 +5068,7 @@ Copyright: Würth Elektronik</description>
 <wire x1="68.58" y1="68.58" x2="68.58" y2="66.04" width="0.1524" layer="91"/>
 </segment>
 <segment>
-<pinref part="RF2_RX/TX" gate="G$1" pin="C"/>
+<pinref part="2_RX/TX" gate="G$1" pin="C"/>
 <pinref part="GND17" gate="1" pin="GND"/>
 <wire x1="71.12" y1="160.02" x2="71.12" y2="157.48" width="0.1524" layer="91"/>
 </segment>
@@ -5390,7 +5390,7 @@ Copyright: Würth Elektronik</description>
 </net>
 <net name="N$13" class="0">
 <segment>
-<pinref part="RF2_RX/TX" gate="G$1" pin="A"/>
+<pinref part="2_RX/TX" gate="G$1" pin="A"/>
 <pinref part="R6" gate="G$1" pin="1"/>
 <wire x1="71.12" y1="167.64" x2="76.2" y2="167.64" width="0.1524" layer="91"/>
 </segment>
