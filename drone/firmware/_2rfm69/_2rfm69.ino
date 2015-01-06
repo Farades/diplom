@@ -1,133 +1,73 @@
 #include <RFM69.h>
 #include <SPI.h>
 
-#define NODEID_1      1
-#define NODEID_2      2
-#define NETWORKID     100  //the same on all nodes that talk to each other
-#define FREQUENCY     RF69_433MHZ
-#define ENCRYPTKEY    "sampleEncryptKey" //exactly the same 16 characters/bytes on all nodes!
-#define ACK_TIME      30 // max # of ms to wait for an ack
-#define SERIAL_BAUD   115200
+#define NETWORKID     100    //the same on all nodes that talk to each other
 
-RFM69 radio1(10, 2, false, 0);
-RFM69 radio2(A3, 3, false, 1);
-bool promiscuousMode = false; //set to 'true' to sniff all packets on the same network
+#define FREQUENCY     RF69_915MHZ
+#define ENCRYPT_KEY    "my-EncryptionKey"  // use same 16byte encryption key for all devices on net
+#define ACK_TIME       50                  // max msec for ACK wait
+#define LED            9                   // Anardino miniWireless has LEDs on D9
+#define SERIAL_BAUD    115200
+
+#define MSGBUFSIZE 16   // message buffersize, but for this demo we only use: 
+                        // 1-byte NODEID + 4-bytes for time + 1-byte for temp in C + 2-bytes for vcc(mV)
+byte msgBuf[MSGBUFSIZE];
+
+RFM69 radio;                  // global radio instance
+bool promiscuousMode = false; // set 'true' to sniff all packets on the same network
+bool requestACK=false;
+
+union itag {
+  uint8_t b[2];
+  uint16_t i;
+}it;
+union ltag {
+  byte b[4];
+  long l;
+}lt; // used to force byte order in case we end up using result in various endian targets...
 
 void setup() {
+  memset(msgBuf,0,sizeof(msgBuf));
   Serial.begin(SERIAL_BAUD);
-  delay(10);
-  if (radio1.initialize(FREQUENCY,NODEID_1,NETWORKID))
-    Serial.println("OK");
- if (radio2.initialize(FREQUENCY,NODEID_2,NETWORKID))
-    Serial.println("OK");
-  radio1.encrypt(ENCRYPTKEY);
-  radio2.encrypt(ENCRYPTKEY);
-  radio1.promiscuous(promiscuousMode);
-  radio2.promiscuous(promiscuousMode);
+  Serial.print("TGateway ");
+  Serial.print(TGW_VERSION);
+  Serial.print(" startup at ");
+  Serial.print((FREQUENCY==RF69_433MHZ ? 433 : FREQUENCY==RF69_868MHZ ? 868 : 915));
+  Serial.print("Mhz, Network ID: ");
+  Serial.println(NETWORKID);
+  delay(50);
+  radio.initialize(FREQUENCY, GATEWAY_ID, NETWORKID);
+  radio.encrypt(0);
+  radio.promiscuous(promiscuousMode);
+#ifdef IS_RFM69HW
+  radio.setHighPower(); //uncomment #define ONLY if radio is of type: RFM69HW or RFM69HCW 
+#endif
 }
 
-byte ackCount=0;
 void loop() {
-  //process any serial input
-  if (Serial.available() > 0)
-  {
-    char input = Serial.read();
-    if (input == 'r') //read register
-    {
-      Serial.println("Radio 1:");
-      radio1.readAllRegs();
-      Serial.println("Radio 2:");
-      radio2.readAllRegs();
-    }  
-
-    if (input == 't')
-    {
-      byte temperature =  radio1.readTemperature(-1); // -1 = user cal factor, adjust for correct ambient
-      byte fTemp = 1.8 * temperature + 32; // 9/5=1.8
-      Serial.print( "Radio Temp is ");
-      Serial.print(temperature);
-      Serial.print("C, ");
-      Serial.print(fTemp); //converting to F loses some resolution, obvious when C is on edge between 2 values (ie 26C=78F, 27C=80F)
-      Serial.println('F');
+  if (radio.receiveDone()) {
+    for(int i=0; i<radio.DATALEN; i++) {
+       if(i==sizeof(msgBuf))
+          break;  // better stop if we've reached our buffer limit (shouldn't get here, as DATALEN should be less than MSGBUFSIZE)
+          msgBuf[i] = radio.DATA[i];
     }
+    // Okay, extract and print out the data received
+    Serial.print("Received from TNODE: ");
+    Serial.print((byte)msgBuf[0],DEC);
+    // extract TNode millis
+    lt.b[3] = msgBuf[1];
+    lt.b[2] = msgBuf[2];
+    lt.b[1] = msgBuf[3];
+    lt.b[0] = msgBuf[4];
+    Serial.print(", t=");
+    Serial.print(lt.l,DEC);
+    Serial.print(", tempC=");
+    Serial.print(msgBuf[5],DEC);
+    Serial.print(", vcc=");
+    it.b[1] = msgBuf[6];
+    it.b[0] = msgBuf[7];
+    // convert TNode VCC to volts
+    float f = (float)it.i/1000.0;
+    Serial.println(f,3);
   }
-  
-  //bool test1 = radio1.receiveDone();
-  //bool test2 = radio2.receiveDone();
-  if (/*radio1.receiveDone()*/false)
-  {
-    Serial.print('[');Serial.print(radio1.SENDERID, DEC);Serial.print("] ");
-    if (promiscuousMode)
-    {
-      Serial.print("to [");Serial.print(radio1.TARGETID, DEC);Serial.print("] ");
-    }
-    for (byte i = 0; i < radio1.DATALEN; i++)
-      Serial.print((char)radio1.DATA[i]);
-    Serial.print("   [RX_RSSI:");Serial.print(radio1.RSSI);Serial.print("]");
-    
-    if (radio1.ACKRequested())
-    {
-      byte theNodeID = radio1.SENDERID;
-      radio1.sendACK();
-      Serial.print(" - ACK sent.");
-
-      // When a node requests an ACK, respond to the ACK
-      // and also send a packet requesting an ACK (every 3rd one only)
-      // This way both TX/RX NODE functions are tested on 1 end at the GATEWAY
-      if (ackCount++%3==0)
-      {
-        Serial.print(" Pinging node ");
-        Serial.print(theNodeID);
-        Serial.print(" - ACK...");
-        delay(3); //need this when sending right after reception .. ?
-        if (radio1.sendWithRetry(theNodeID, "ACK TEST", 8, 0))  // 0 = only 1 attempt, no retries
-          Serial.print("ok!");
-        else Serial.print("nothing");
-      }
-    }
-    Serial.println();
-    Blink(9,3);
-  }
-  if (radio2.receiveDone())
-  {
-    Serial.print('[');Serial.print(radio2.SENDERID, DEC);Serial.print("] ");
-    if (promiscuousMode)
-    {
-      Serial.print("to [");Serial.print(radio2.TARGETID, DEC);Serial.print("] ");
-    }
-    for (byte i = 0; i < radio2.DATALEN; i++)
-      Serial.print((char)radio2.DATA[i]);
-    Serial.print("   [RX_RSSI:");Serial.print(radio2.RSSI);Serial.print("]");
-    
-    if (radio2.ACKRequested())
-    {
-      byte theNodeID = radio2.SENDERID;
-      radio2.sendACK();
-      Serial.print(" - ACK sent.");
-
-      // When a node requests an ACK, respond to the ACK
-      // and also send a packet requesting an ACK (every 3rd one only)
-      // This way both TX/RX NODE functions are tested on 1 end at the GATEWAY
-      if (ackCount++%3==0)
-      {
-        Serial.print(" Pinging node ");
-        Serial.print(theNodeID);
-        Serial.print(" - ACK...");
-        delay(3); //need this when sending right after reception .. ?
-        if (radio2.sendWithRetry(theNodeID, "ACK TEST", 8, 0))  // 0 = only 1 attempt, no retries
-          Serial.print("ok!");
-        else Serial.print("nothing");
-      }
-    }
-    Serial.println();
-    Blink(A1,3);
-  }
-}
-
-void Blink(byte PIN, int DELAY_MS)
-{
-  pinMode(PIN, OUTPUT);
-  digitalWrite(PIN,HIGH);
-  delay(DELAY_MS);
-  digitalWrite(PIN,LOW);
 }
