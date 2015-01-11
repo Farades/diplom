@@ -1,0 +1,17 @@
+package ru.mtplab;
+
+import jssc.SerialPort;
+import jssc.SerialPortList;
+import ru.mtplab.gui.ManagerGUI;
+
+
+public class Main {
+
+    public static void main(String[] args) {
+//	    String[] portNames = SerialPortList.getPortNames();
+//        for (int i = 0; i < portNames.length; i++) {
+//            System.out.println(portNames[i]);
+//        }
+        ManagerGUI gui = new ManagerGUI();
+    }
+}
