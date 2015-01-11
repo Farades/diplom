@@ -38,7 +38,7 @@ public class ComPort {
         public void serialEvent(SerialPortEvent event) {
             if (event.isRXCHAR() && event.getEventValue() > 0) {
                 try {
-                    Thread.sleep(5);
+                    Thread.sleep(10);
                     String data = serialPort.readString(event.getEventValue());
                     System.out.print("[BS]: " + data);
                 } catch (SerialPortException ex) {
