@@ -9,7 +9,7 @@
 #define SERIAL_BAUD 115200
 #define ACK_TIME    30  // # of ms to wait for an ack
 
-int TRANSMITPERIOD = 300; //transmit a packet to gateway so often (in ms)
+int TRANSMITPERIOD = 1000; //transmit a packet to gateway so often (in ms)
 byte sendSize = 0;
 boolean requestACK = false;
 RFM69 radio;
@@ -70,11 +70,14 @@ void loop() {
     Serial.println();
   }
   
-//  int currPeriod = millis()/TRANSMITPERIOD;
-//  if (currPeriod != lastPeriod)
+  int currPeriod = millis()/TRANSMITPERIOD;
+  if (currPeriod != lastPeriod)
   {
-    //fill in the struct with new values
-//    lastPeriod=currPeriod;
+    theData.cmd = 0;
+    theData.cmdValue = 0;
+    sendMessage(255);
+    
+    lastPeriod=currPeriod;
   }
 }
 

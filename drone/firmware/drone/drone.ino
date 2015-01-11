@@ -10,7 +10,8 @@
 #define ACK_TIME    30  // # of ms to wait for an ack
 
 RFM69 radio;
-bool promiscuousMode = true; //set to 'true' to sniff all packets on the same network
+bool promiscuousMode = false; //set to 'true' to sniff all packets on the same network
+bool bestCondition   = true;
 
 typedef struct {		
   byte          cmd;
@@ -60,6 +61,12 @@ void loop() {
       Serial.print(theData.cmdValue);
       if (theData.cmd == 1)
         changeBright(theData.cmdValue);
+    }
+    
+    if (radio.TARGETID == 255 && bestCondition) {
+      byte theNodeID = radio.SENDERID;
+      radio.sendACK();
+      Serial.print(" - ACK sent.");
     }
     
     if (radio.ACKRequested())
