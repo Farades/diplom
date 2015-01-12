@@ -5312,6 +5312,9 @@ Wickmann</description>
 <part name="JP3" library="SparkFun-Connectors" deviceset="M06" device="SIP"/>
 <part name="JP4" library="SparkFun-Connectors" deviceset="M05" device="PTH"/>
 <part name="RESET" library="switch-tact" deviceset="DTSM-3" device=""/>
+<part name="C8" library="SparkFun-Capacitors" deviceset="CAP" device="1206" value="0.1uF"/>
+<part name="SUPPLY8" library="SparkFun-Aesthetics" deviceset="3.3V" device=""/>
+<part name="GND11" library="SparkFun-Aesthetics" deviceset="GND" device=""/>
 </parts>
 <sheets>
 <sheet>
@@ -5390,6 +5393,12 @@ Wickmann</description>
 <instance part="JP3" gate="G$1" x="170.18" y="45.72"/>
 <instance part="JP4" gate="G$1" x="193.04" y="48.26"/>
 <instance part="RESET" gate="G$1" x="27.94" y="154.94"/>
+<instance part="C8" gate="G$1" x="12.7" y="78.74" smashed="yes" rot="MR0">
+<attribute name="NAME" x="17.018" y="81.407" size="1.778" layer="95" rot="MR0"/>
+<attribute name="VALUE" x="20.066" y="76.581" size="1.778" layer="96" rot="MR0"/>
+</instance>
+<instance part="SUPPLY8" gate="G$1" x="12.7" y="86.36"/>
+<instance part="GND11" gate="1" x="12.7" y="71.12"/>
 </instances>
 <busses>
 </busses>
@@ -5464,6 +5473,11 @@ Wickmann</description>
 <pinref part="JP4" gate="G$1" pin="4"/>
 <wire x1="200.66" y1="50.8" x2="205.74" y2="50.8" width="0.1524" layer="91"/>
 <label x="200.66" y="50.8" size="1.778" layer="95"/>
+</segment>
+<segment>
+<pinref part="C8" gate="G$1" pin="1"/>
+<pinref part="SUPPLY8" gate="G$1" pin="3.3V"/>
+<wire x1="12.7" y1="83.82" x2="12.7" y2="86.36" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="GND" class="0">
@@ -5552,6 +5566,11 @@ Wickmann</description>
 <pinref part="JP4" gate="G$1" pin="5"/>
 <wire x1="200.66" y1="53.34" x2="205.74" y2="53.34" width="0.1524" layer="91"/>
 <label x="200.66" y="53.34" size="1.778" layer="95"/>
+</segment>
+<segment>
+<pinref part="GND11" gate="1" pin="GND"/>
+<pinref part="C8" gate="G$1" pin="2"/>
+<wire x1="12.7" y1="73.66" x2="12.7" y2="76.2" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="N$6" class="0">

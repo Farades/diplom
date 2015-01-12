@@ -5223,7 +5223,7 @@ Wickmann</description>
 <wire x1="-18" y1="12.492" x2="18.492" y2="12.492" width="0.127" layer="21"/>
 <wire x1="18.492" y1="12.492" x2="18.492" y2="-14" width="0.127" layer="21"/>
 <wire x1="18.492" y1="-14" x2="-18" y2="-14" width="0.127" layer="21"/>
-<text x="-10.73" y="-16.56" size="2.1844" layer="25">GPS/GLONASS</text>
+<text x="-10.73" y="-16.56" size="2.1844" layer="25" font="vector">GPS/GLONASS</text>
 <pad name="P$1" x="-15" y="9.492" drill="3.2"/>
 <pad name="P$2" x="15.492" y="9.492" drill="3.2"/>
 <pad name="P$3" x="15.492" y="-11" drill="3.2"/>
@@ -5232,7 +5232,7 @@ Wickmann</description>
 <wire x1="14" y1="-48" x2="-13" y2="-48" width="0.127" layer="25"/>
 <wire x1="-13" y1="-48" x2="-13" y2="-23" width="0.127" layer="25"/>
 <wire x1="-13" y1="-23" x2="14" y2="-23" width="0.127" layer="25"/>
-<text x="-14" y="-37" size="2.1844" layer="25" rot="R90">ANT</text>
+<text x="-14" y="-37" size="2.1844" layer="25" font="vector" rot="R90">ANT</text>
 </package>
 </packages>
 <symbols>

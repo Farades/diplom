@@ -5076,7 +5076,7 @@ Wickmann</description>
 <part name="C8" library="SparkFun-Capacitors" deviceset="CAP" device="1206" value="0.1uF"/>
 <part name="SUPPLY8" library="SparkFun-Aesthetics" deviceset="3.3V" device=""/>
 <part name="GND11" library="SparkFun-Aesthetics" deviceset="GND" device=""/>
-<part name="C9" library="SparkFun-Capacitors" deviceset="CAP" device="1206" value="0.1uF"/>
+<part name="C9" library="SparkFun-Capacitors" deviceset="CAP" device="1206" value="0.47uF"/>
 <part name="SUPPLY9" library="SparkFun-Aesthetics" deviceset="3.3V" device=""/>
 <part name="GND12" library="SparkFun-Aesthetics" deviceset="GND" device=""/>
 <part name="JP5" library="SparkFun-Connectors" deviceset="M06" device="SIP"/>
