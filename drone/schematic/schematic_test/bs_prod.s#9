@@ -6,7 +6,7 @@
 <setting alwaysvectorfont="no"/>
 <setting verticaltext="up"/>
 </settings>
-<grid distance="0.1" unitdist="inch" unit="inch" style="lines" multiple="1" display="yes" altdistance="0.01" altunitdist="inch" altunit="inch"/>
+<grid distance="0.1" unitdist="inch" unit="inch" style="lines" multiple="1" display="no" altdistance="0.01" altunitdist="inch" altunit="inch"/>
 <layers>
 <layer number="1" name="Top" color="4" fill="1" visible="no" active="no"/>
 <layer number="2" name="Route2" color="1" fill="3" visible="no" active="no"/>
@@ -2266,11 +2266,17 @@ You are welcome to use this library for commercial purposes. For attribution, we
 <wire x1="-0.965" y1="-0.787" x2="0.965" y2="-0.787" width="0.1016" layer="51"/>
 <smd name="1" x="-1.4" y="0" dx="1.6" dy="1.8" layer="1"/>
 <smd name="2" x="1.4" y="0" dx="1.6" dy="1.8" layer="1"/>
-<text x="-3.81" y="1.143" size="1.4224" layer="25">&gt;NAME</text>
-<text x="-3.937" y="-2.794" size="1.4224" layer="27">&gt;VALUE</text>
+<text x="-3.81" y="1.3208" size="1.4224" layer="25">&gt;NAME</text>
+<text x="-3.9624" y="-2.7432" size="1.4224" layer="27">&gt;VALUE</text>
 <rectangle x1="-1.7018" y1="-0.8509" x2="-0.9517" y2="0.8491" layer="51"/>
 <rectangle x1="0.9517" y1="-0.8491" x2="1.7018" y2="0.8509" layer="51"/>
 <rectangle x1="-0.1999" y1="-0.4001" x2="0.1999" y2="0.4001" layer="35"/>
+<wire x1="-2.5908" y1="1.0922" x2="-2.5908" y2="-1.0922" width="0.127" layer="21"/>
+<wire x1="-2.5908" y1="-1.0922" x2="-0.508" y2="-1.0922" width="0.127" layer="21"/>
+<wire x1="-2.5908" y1="1.0922" x2="-0.5334" y2="1.0922" width="0.127" layer="21"/>
+<wire x1="0.508" y1="-1.0922" x2="2.5908" y2="-1.0922" width="0.127" layer="21"/>
+<wire x1="2.5908" y1="-1.0922" x2="2.5908" y2="1.0922" width="0.127" layer="21"/>
+<wire x1="2.5908" y1="1.0922" x2="0.508" y2="1.0922" width="0.127" layer="21"/>
 </package>
 <package name="AXIAL-0.3">
 <wire x1="-2.54" y1="0.762" x2="2.54" y2="0.762" width="0.2032" layer="21"/>
@@ -4436,20 +4442,20 @@ distributor RS 295-5429</description>
 <library name="myGps">
 <packages>
 <package name="UBLOX">
-<wire x1="-18" y1="-14" x2="-18" y2="12.492" width="0.127" layer="21"/>
-<wire x1="-18" y1="12.492" x2="18.492" y2="12.492" width="0.127" layer="21"/>
+<wire x1="-19" y1="-14" x2="-19" y2="12.492" width="0.127" layer="21"/>
+<wire x1="-19" y1="12.492" x2="18.492" y2="12.492" width="0.127" layer="21"/>
 <wire x1="18.492" y1="12.492" x2="18.492" y2="-14" width="0.127" layer="21"/>
-<wire x1="18.492" y1="-14" x2="-18" y2="-14" width="0.127" layer="21"/>
-<text x="-10.73" y="-16.56" size="2.1844" layer="25" font="vector">GPS/GLONASS</text>
+<wire x1="18.492" y1="-14" x2="-19" y2="-14" width="0.127" layer="21"/>
+<text x="-9.73" y="-16.56" size="1.9304" layer="25" font="vector" ratio="15">GPS/GLONASS</text>
 <pad name="P$1" x="-15" y="9.492" drill="3.2"/>
 <pad name="P$2" x="15.492" y="9.492" drill="3.2"/>
 <pad name="P$3" x="15.492" y="-11" drill="3.2"/>
 <pad name="P$4" x="-15" y="-11" drill="3.2"/>
-<wire x1="14" y1="-23" x2="14" y2="-48" width="0.127" layer="25"/>
-<wire x1="14" y1="-48" x2="-13" y2="-48" width="0.127" layer="25"/>
-<wire x1="-13" y1="-48" x2="-13" y2="-23" width="0.127" layer="25"/>
-<wire x1="-13" y1="-23" x2="14" y2="-23" width="0.127" layer="25"/>
-<text x="-14" y="-37" size="2.1844" layer="25" font="vector" rot="R90">ANT</text>
+<wire x1="14" y1="-21" x2="14" y2="-46" width="0.127" layer="25"/>
+<wire x1="14" y1="-46" x2="-13" y2="-46" width="0.127" layer="25"/>
+<wire x1="-13" y1="-46" x2="-13" y2="-21" width="0.127" layer="25"/>
+<wire x1="-13" y1="-21" x2="14" y2="-21" width="0.127" layer="25"/>
+<text x="-7" y="-37" size="1.9304" layer="25" font="vector" ratio="15" rot="R90">ANT</text>
 </package>
 </packages>
 <symbols>
@@ -4689,8 +4695,8 @@ Copyright: Würth Elektronik</description>
 <part name="PWR" library="SparkFun-LED" deviceset="LED" device="1206"/>
 <part name="SUPPLY1" library="SparkFun-Aesthetics" deviceset="3.3V" device=""/>
 <part name="SUPPLY2" library="SparkFun-Aesthetics" deviceset="5V" device=""/>
-<part name="C3" library="SparkFun-Capacitors" deviceset="CAP" device="1206" value="20pF"/>
-<part name="C4" library="SparkFun-Capacitors" deviceset="CAP" device="1206" value="20pF"/>
+<part name="C3" library="SparkFun-Capacitors" deviceset="CAP" device="1206" value="22pF"/>
+<part name="C4" library="SparkFun-Capacitors" deviceset="CAP" device="1206" value="22pF"/>
 <part name="GND2" library="SparkFun-Aesthetics" deviceset="GND" device=""/>
 <part name="GND3" library="SparkFun-Aesthetics" deviceset="GND" device=""/>
 <part name="C6" library="SparkFun-Capacitors" deviceset="CAP" device="1206" value="0.1uF"/>
@@ -4732,10 +4738,10 @@ Copyright: Würth Elektronik</description>
 <part name="PWR_RF1" library="SparkFun-LED" deviceset="LED" device="1206"/>
 <part name="R5" library="SparkFun-Resistors" deviceset="RESISTOR" device="1206" value="1k"/>
 <part name="GND15" library="SparkFun-Aesthetics" deviceset="GND" device=""/>
-<part name="SMA1" library="con-coax" deviceset="BU-SMC-V" device=""/>
+<part name="SMA_RF2" library="con-coax" deviceset="BU-SMC-V" device=""/>
 <part name="GND16" library="SparkFun-Aesthetics" deviceset="GND" device=""/>
 <part name="R6" library="SparkFun-Resistors" deviceset="RESISTOR" device="1206" value="1k"/>
-<part name="RF2_RX/TX" library="SparkFun-LED" deviceset="LED" device="1206"/>
+<part name="2_RX/TX" library="SparkFun-LED" deviceset="LED" device="1206"/>
 <part name="GND17" library="SparkFun-Aesthetics" deviceset="GND" device=""/>
 <part name="SW1" library="Eagle_Wuerth_Elektronik_Switch" deviceset="418117270902" device=""/>
 <part name="JP1" library="SparkFun-Connectors" deviceset="M04" device="PTH"/>
@@ -4842,13 +4848,13 @@ Copyright: Würth Elektronik</description>
 <instance part="PWR_RF1" gate="G$1" x="106.68" y="109.22" rot="R180"/>
 <instance part="R5" gate="G$1" x="106.68" y="121.92" rot="R270"/>
 <instance part="GND15" gate="1" x="114.3" y="124.46"/>
-<instance part="SMA1" gate="G1" x="162.56" y="137.16" smashed="yes">
+<instance part="SMA_RF2" gate="G1" x="162.56" y="137.16" smashed="yes">
 <attribute name="VALUE" x="161.798" y="140.462" size="1.778" layer="96"/>
 <attribute name="NAME" x="155.956" y="140.208" size="1.778" layer="95"/>
 </instance>
 <instance part="GND16" gate="1" x="165.1" y="127"/>
 <instance part="R6" gate="G$1" x="81.28" y="167.64"/>
-<instance part="RF2_RX/TX" gate="G$1" x="71.12" y="165.1"/>
+<instance part="2_RX/TX" gate="G$1" x="71.12" y="165.1"/>
 <instance part="GND17" gate="1" x="71.12" y="154.94"/>
 <instance part="SW1" gate="G$1" x="190.5" y="109.22" smashed="yes">
 <attribute name="NAME" x="195.58" y="108.966" size="1.778" layer="95"/>
@@ -5058,7 +5064,7 @@ Copyright: Würth Elektronik</description>
 <pinref part="GND15" gate="1" pin="GND"/>
 </segment>
 <segment>
-<pinref part="SMA1" gate="G1" pin="2"/>
+<pinref part="SMA_RF2" gate="G1" pin="2"/>
 <pinref part="GND16" gate="1" pin="GND"/>
 <wire x1="165.1" y1="134.62" x2="165.1" y2="129.54" width="0.1524" layer="91"/>
 </segment>
@@ -5068,7 +5074,7 @@ Copyright: Würth Elektronik</description>
 <wire x1="68.58" y1="68.58" x2="68.58" y2="66.04" width="0.1524" layer="91"/>
 </segment>
 <segment>
-<pinref part="RF2_RX/TX" gate="G$1" pin="C"/>
+<pinref part="2_RX/TX" gate="G$1" pin="C"/>
 <pinref part="GND17" gate="1" pin="GND"/>
 <wire x1="71.12" y1="160.02" x2="71.12" y2="157.48" width="0.1524" layer="91"/>
 </segment>
@@ -5335,7 +5341,7 @@ Copyright: Würth Elektronik</description>
 <pinref part="U3" gate="G$1" pin="ANT"/>
 <wire x1="152.4" y1="124.46" x2="167.64" y2="124.46" width="0.1524" layer="91"/>
 <wire x1="167.64" y1="124.46" x2="167.64" y2="137.16" width="0.1524" layer="91"/>
-<pinref part="SMA1" gate="G1" pin="1"/>
+<pinref part="SMA_RF2" gate="G1" pin="1"/>
 <wire x1="165.1" y1="137.16" x2="167.64" y2="137.16" width="0.1524" layer="91"/>
 </segment>
 </net>
@@ -5390,7 +5396,7 @@ Copyright: Würth Elektronik</description>
 </net>
 <net name="N$13" class="0">
 <segment>
-<pinref part="RF2_RX/TX" gate="G$1" pin="A"/>
+<pinref part="2_RX/TX" gate="G$1" pin="A"/>
 <pinref part="R6" gate="G$1" pin="1"/>
 <wire x1="71.12" y1="167.64" x2="76.2" y2="167.64" width="0.1524" layer="91"/>
 </segment>
