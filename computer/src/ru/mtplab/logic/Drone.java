@@ -17,10 +17,36 @@ public class Drone {
         this.state = state;
         this.job = job;
     }
-    
+
+    public int getId() {
+        return this.id;
+    }
+
+    public float getLatitude() {
+        return latitude;
+    }
+
+    public float getLongitude() {
+        return longitude;
+    }
+
+    public byte getState() {
+        return state;
+    }
+
+    public byte getJob() {
+        return job;
+    }
+
     @Override
     public String toString() {
         return "[" + this.id + "]   Latitude: " + this.latitude + "   Logitude: " + this.longitude +
                 "   State: " + this.state + "   Job: " + this.job;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        Drone drone = (Drone)obj;
+        return (this.id == drone.getId());
     }
 }

@@ -10,7 +10,7 @@ import java.util.ArrayList;
 public class ComPort {
     private SerialPort serialPort;
     private ArrayList<ComObserver> comObservers;
-    private String readyReceiveString;
+    private StringBuilder readyReceiveString;
 
     /**
      * Конструктор ComPort. Конфигурирует и устанавливает соединение с портом.
@@ -19,6 +19,7 @@ public class ComPort {
     public ComPort(String port) {
         comObservers = new ArrayList<ComObserver>();
         serialPort = new SerialPort(port);
+        readyReceiveString = new StringBuilder();
         try {
             serialPort.openPort();
             serialPort.setParams(SerialPort.BAUDRATE_115200,
@@ -57,7 +58,7 @@ public class ComPort {
     //Оповещение наблюдателей с передачей сформированной строки.
     public void notification() {
         for (ComObserver obs : comObservers) {
-            obs.onComRecieve(readyReceiveString);
+                obs.onComRecieve(readyReceiveString.toString());
         }
     }
 
@@ -77,13 +78,13 @@ public class ComPort {
             if (event.isRXCHAR() && event.getEventValue() > 0) {
                 try {
                     String data = serialPort.readString(event.getEventValue());
-                    readyReceiveString += data;
-                    if (readyReceiveString.contains("^") && readyReceiveString.contains("\n")) {
+                    readyReceiveString.append(data);
+                    if (readyReceiveString.toString().contains("^") && readyReceiveString.toString().contains("\n")) {
                         notification();
-                        readyReceiveString = "";
+                        readyReceiveString.setLength(0);
                     }
-                    else if(readyReceiveString.contains("\n")) {
-                        readyReceiveString = "";
+                    else if(readyReceiveString.toString().contains("\n")) {
+                        readyReceiveString.setLength(0);
                     }
                 } catch (SerialPortException ex) {
                     ex.printStackTrace();

@@ -10,16 +10,16 @@ import java.util.StringTokenizer;
  */
 public class BaseStation implements ComObserver {
     // HashMap для хранения drone. Ключом является уникальный идентификатор приемопередающих устройств БПЛА.
-    private Map<Integer, Drone> drones;
+    private ArrayList<Drone> drones;
     private ArrayList<DronesUpdateObserver> dronesUpdateObservers;
     private ComPort port;
 
     public BaseStation() {
-        drones = new HashMap<Integer, Drone>();
+        drones = new ArrayList<Drone>();
         dronesUpdateObservers = new ArrayList<DronesUpdateObserver>();
     }
 
-    public Map<Integer, Drone> getDrones() {
+    public ArrayList<Drone> getDrones() {
         return drones;
     }
 
@@ -80,7 +80,12 @@ public class BaseStation implements ComObserver {
                 i++;
             }
             Drone drone = new Drone(id, latitude, longitude, state, job);
-            drones.put(id, drone);
+            if (drones.contains(drone)) {
+                int index = drones.indexOf(drone);
+                drones.set(index, drone);
+            } else {
+                drones.add(drone);
+            }
         }
         dronesUpdateObsNotification();
     }

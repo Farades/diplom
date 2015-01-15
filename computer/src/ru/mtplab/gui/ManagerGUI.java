@@ -17,7 +17,7 @@ public class ManagerGUI extends JFrame implements DronesUpdateObserver {
 
 
     public final static String TITLE = "Manager";
-    public final static int WIDTH = 600;
+    public final static int WIDTH = 700;
     public final static int HEIGHT = 600;
 
     public ManagerGUI() {
@@ -28,11 +28,10 @@ public class ManagerGUI extends JFrame implements DronesUpdateObserver {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBounds(300, 300, WIDTH, HEIGHT);
         setVisible(true);
-        setResizable(false);
 
         mainWindow = new MainWindow(manager, this);
         add(BorderLayout.CENTER, mainWindow);
-        //add(BorderLayout.SOUTH, new JLabel("dwa"));
+        add(BorderLayout.SOUTH, new StatusBar("Ready"));
     }
 
     /**
@@ -68,6 +67,7 @@ public class ManagerGUI extends JFrame implements DronesUpdateObserver {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     manager.getBs().setComPort(e.getActionCommand());
+                    manager.getBs().getPort().addComListener(mainWindow.getTerminalPanel());
                 }
             });
         }
@@ -77,5 +77,11 @@ public class ManagerGUI extends JFrame implements DronesUpdateObserver {
     @Override
     public void onDronesUpdate() {
         mainWindow.redraw();
+    }
+
+    private class StatusBar extends JLabel {
+        public StatusBar(String str) {
+            super(str);
+        }
     }
 }
