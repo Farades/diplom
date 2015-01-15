@@ -28,6 +28,10 @@ public class BaseStation implements ComObserver {
         port.addComListener(this);
     }
 
+    public void closeComPort() {
+        port.close();
+    }
+
     public ComPort getPort() {
         return port;
     }
@@ -79,6 +83,5 @@ public class BaseStation implements ComObserver {
             drones.put(id, drone);
         }
         dronesUpdateObsNotification();
-        System.out.println(drones);
     }
 }

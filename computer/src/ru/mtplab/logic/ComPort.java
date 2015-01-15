@@ -10,7 +10,7 @@ import java.util.ArrayList;
 public class ComPort {
     private SerialPort serialPort;
     private ArrayList<ComObserver> comObservers;
-    private String readyRecieveString;
+    private String readyReceiveString;
 
     /**
      * Конструктор ComPort. Конфигурирует и устанавливает соединение с портом.
@@ -45,11 +45,19 @@ public class ComPort {
         }
     }
 
+    public void close() {
+        try {
+            serialPort.closePort();
+        } catch (SerialPortException ex) {
+            ex.printStackTrace();
+        }
+
+    }
 
     //Оповещение наблюдателей с передачей сформированной строки.
     public void notification() {
         for (ComObserver obs : comObservers) {
-            obs.onComRecieve(readyRecieveString);
+            obs.onComRecieve(readyReceiveString);
         }
     }
 
@@ -69,13 +77,13 @@ public class ComPort {
             if (event.isRXCHAR() && event.getEventValue() > 0) {
                 try {
                     String data = serialPort.readString(event.getEventValue());
-                    readyRecieveString += data;
-                    if (readyRecieveString.contains("^") && readyRecieveString.contains("\n")) {
+                    readyReceiveString += data;
+                    if (readyReceiveString.contains("^") && readyReceiveString.contains("\n")) {
                         notification();
-                        readyRecieveString = "";
+                        readyReceiveString = "";
                     }
-                    else if(readyRecieveString.contains("\n")) {
-                        readyRecieveString = "";
+                    else if(readyReceiveString.contains("\n")) {
+                        readyReceiveString = "";
                     }
                 } catch (SerialPortException ex) {
                     ex.printStackTrace();

@@ -11,18 +11,21 @@ import java.util.Map;
  * Created by Артем on 11.01.2015.
  */
 public class MainWindow extends WindowPanel {
-    DefaultListModel<Drone> droneModel;
+    private JTabbedPane tabbedPane;
+    private DronesListPanel dronesListPanel;
+    private TerminalPanel terminalPanel;
+
 
     public MainWindow(Manager manager, JFrame mainFrame) {
         super(manager, mainFrame);
-        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        dronesListPanel = new DronesListPanel(manager, mainFrame);
+        terminalPanel = new TerminalPanel(manager, mainFrame);
+        setLayout(new BorderLayout());
 
-        droneModel = new DefaultListModel<Drone>();
-        JList droneJList = new JList(droneModel);
-
-        this.add(droneJList);
-
-
+        tabbedPane = new JTabbedPane();
+        tabbedPane.addTab("Список БПЛА", dronesListPanel);
+        tabbedPane.addTab("Терминал", terminalPanel);
+        add(BorderLayout.CENTER, tabbedPane);
 //        JButton test = new JButton("test");
 //        add(test);
 //        test.addActionListener(new ActionListener() {
@@ -33,9 +36,8 @@ public class MainWindow extends WindowPanel {
 //        });
     }
 
-    public void setDroneModel(Map<Integer, Drone> drones) {
-        for (Map.Entry<Integer, Drone> pair: drones.entrySet()) {
-            droneModel.addElement(pair.getValue());
-        }
+    @Override
+    public void redraw() {
+        dronesListPanel.redraw();
     }
 }
