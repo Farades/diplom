@@ -70,8 +70,11 @@ public class ComPort {
                 try {
                     String data = serialPort.readString(event.getEventValue());
                     readyRecieveString += data;
-                    if (readyRecieveString.contains("\n")) {
+                    if (readyRecieveString.contains("^") && readyRecieveString.contains("\n")) {
                         notification();
+                        readyRecieveString = "";
+                    }
+                    else if(readyRecieveString.contains("\n")) {
                         readyRecieveString = "";
                     }
                 } catch (SerialPortException ex) {

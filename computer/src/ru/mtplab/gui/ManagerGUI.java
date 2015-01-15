@@ -10,7 +10,7 @@ import java.awt.event.ActionListener;
  * ManagerGUI - главное окно(JFrame) приложения.
  * Для перехода внутри приложения меняются JPanel внутри данного JFrame.
  */
-public class ManagerGUI extends JFrame {
+public class ManagerGUI extends JFrame implements DronesUpdateObserver {
     private Manager manager;
 
     public final static String TITLE = "Manager";
@@ -19,6 +19,7 @@ public class ManagerGUI extends JFrame {
 
     public ManagerGUI() {
         manager = new Manager();
+        manager.getBs().addDronesUpdateListener(this);
         setMenu();
         setTitle(TITLE);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -50,5 +51,10 @@ public class ManagerGUI extends JFrame {
             });
         }
         this.setJMenuBar(menuBar);
+    }
+
+    @Override
+    public void onDronesUpdate() {
+        System.out.println("test");
     }
 }
