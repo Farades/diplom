@@ -7,13 +7,14 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 /**
- * Created by Артем on 11.01.2015.
+ * ManagerGUI - главное окно(JFrame) приложения.
+ * Для перехода внутри приложения меняются JPanel внутри данного JFrame.
  */
 public class ManagerGUI extends JFrame {
     private Manager manager;
 
     public final static String TITLE = "Manager";
-    public final static int WIDTH = 400;
+    public final static int WIDTH = 600;
     public final static int HEIGHT = 600;
 
     public ManagerGUI() {
@@ -24,17 +25,12 @@ public class ManagerGUI extends JFrame {
         setBounds(300, 300, WIDTH, HEIGHT);
         setVisible(true);
         setResizable(false);
-
-        JButton test = new JButton("test");
-        add(test);
-        test.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                manager.getBs().getPort().write("DID=1;CMD=1;VAL=0");
-            }
-        });
+        add(new MainWindow(manager, this));
     }
 
+    /**
+     * Установка верхнего меню "Настройка"
+     */
     private void setMenu() {
         JMenuBar menuBar = new JMenuBar();
         JMenu menuSettings = new JMenu("Настройка");
@@ -50,7 +46,6 @@ public class ManagerGUI extends JFrame {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     manager.getBs().setComPort(e.getActionCommand());
-                        //manager.getBs().getPort().write("DID=1;CMD=1;VAL=0");
                 }
             });
         }

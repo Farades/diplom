@@ -7,7 +7,6 @@ import java.util.ArrayList;
  */
 public class Manager {
     private BaseStation bs;
-    private ArrayList<Drone> drones;
 
     public Manager() {
         bs = new BaseStation();
