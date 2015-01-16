@@ -15,9 +15,8 @@ public class ManagerGUI extends JFrame implements DronesUpdateObserver {
     private Manager manager;
     private MainWindow mainWindow;
 
-
     public final static String TITLE = "Manager";
-    public final static int WIDTH = 700;
+    public final static int WIDTH = 930;
     public final static int HEIGHT = 600;
 
     public ManagerGUI() {
@@ -26,6 +25,7 @@ public class ManagerGUI extends JFrame implements DronesUpdateObserver {
         setMenu();
         setTitle(TITLE);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setMinimumSize(new Dimension(WIDTH, HEIGHT));
         setBounds(300, 300, WIDTH, HEIGHT);
         setVisible(true);
 
