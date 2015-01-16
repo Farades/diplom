@@ -58,7 +58,7 @@ public class ComPort {
     //Оповещение наблюдателей с передачей сформированной строки.
     public void notification() {
         for (ComObserver obs : comObservers) {
-                obs.onComRecieve(readyReceiveString.toString());
+                obs.onComReceive(readyReceiveString.toString());
         }
     }
 

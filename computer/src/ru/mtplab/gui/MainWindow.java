@@ -25,14 +25,6 @@ public class MainWindow extends WindowPanel {
         tabbedPane.addTab("Список БПЛА", dronesTablePanel);
         tabbedPane.addTab("Терминал", terminalPanel);
         add(BorderLayout.CENTER, tabbedPane);
-//        JButton test = new JButton("test");
-//        add(test);
-//        test.addActionListener(new ActionListener() {
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//                //manager.getBs().getPort().write("DID=1;CMD=1;VAL=0");
-//            }
-//        });
     }
 
     public ComObserver getTerminalPanel() {

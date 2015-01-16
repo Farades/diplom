@@ -6,6 +6,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * ManagerGUI - главное окно(JFrame) приложения.
@@ -14,6 +16,7 @@ import java.awt.event.ActionListener;
 public class ManagerGUI extends JFrame implements DronesUpdateObserver {
     private Manager manager;
     private MainWindow mainWindow;
+    private JLabel statusLabel;
 
     public final static String TITLE = "Manager";
     public final static int WIDTH = 930;
@@ -22,6 +25,8 @@ public class ManagerGUI extends JFrame implements DronesUpdateObserver {
     public ManagerGUI() {
         manager = new Manager();
         manager.getBs().addDronesUpdateListener(this);
+        statusLabel = new JLabel("  Последнее обновление:");
+
         setMenu();
         setTitle(TITLE);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -31,7 +36,7 @@ public class ManagerGUI extends JFrame implements DronesUpdateObserver {
 
         mainWindow = new MainWindow(manager, this);
         add(BorderLayout.CENTER, mainWindow);
-        add(BorderLayout.SOUTH, new StatusBar("Ready"));
+        add(BorderLayout.SOUTH, statusLabel);
     }
 
     /**
@@ -77,11 +82,7 @@ public class ManagerGUI extends JFrame implements DronesUpdateObserver {
     @Override
     public void onDronesUpdate() {
         mainWindow.redraw();
-    }
-
-    private class StatusBar extends JLabel {
-        public StatusBar(String str) {
-            super(str);
-        }
+        SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss.ms");
+        statusLabel.setText("  Последнее обновление: " + dateFormat.format(new Date()));
     }
 }

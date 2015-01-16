@@ -60,8 +60,8 @@ public class TerminalPanel extends WindowPanel implements ComObserver {
     }
 
     @Override
-    public void onComRecieve(String recieveString) {
-        textArea.append("[IN] " + recieveString);
+    public void onComReceive(String receiveString) {
+        textArea.append("[IN] " + receiveString);
         vertical.setValue(vertical.getMaximum());
     }
 }
