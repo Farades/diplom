@@ -26,6 +26,8 @@ public class ManagerGUI extends JFrame implements DronesUpdateObserver {
         manager = new Manager();
         manager.getBs().addDronesUpdateListener(this);
         statusLabel = new JLabel("  Последнее обновление:");
+        Font font = new Font("Arial", Font.BOLD, 14);
+        statusLabel.setFont(font);
 
         setMenu();
         setTitle(TITLE);

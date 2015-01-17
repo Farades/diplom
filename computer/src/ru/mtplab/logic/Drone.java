@@ -18,6 +18,23 @@ public class Drone {
         this.job = job;
     }
 
+
+    public void setLatitude(float latitude) {
+        this.latitude = latitude;
+    }
+
+    public void setLongitude(float longitude) {
+        this.longitude = longitude;
+    }
+
+    public void setState(byte state) {
+        this.state = state;
+    }
+
+    public void setJob(byte job) {
+        this.job = job;
+    }
+
     public int getId() {
         return this.id;
     }

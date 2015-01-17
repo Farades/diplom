@@ -4,6 +4,8 @@ import ru.mtplab.logic.Drone;
 import ru.mtplab.logic.Manager;
 
 import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -14,16 +16,20 @@ import java.util.ArrayList;
  * Created by tess on 15.01.2015.
  */
 public class DronesTablePanel extends WindowPanel {
-    DronesTableModel droneModel;
-    JTable dronesJTable;
-    JScrollPane dronesScroll;
+    private DronesTableModel droneModel;
+    private JTable dronesJTable;
+    private JScrollPane dronesScroll;
+    private MainWindow mainWindow;
 
-    public DronesTablePanel(Manager manager, JFrame frame) {
+    public DronesTablePanel(Manager manager, JFrame frame, MainWindow mainWindow) {
         super(manager, frame);
-
         setLayout(new BorderLayout());
+        this.mainWindow = mainWindow;
 
+        setDronesTable();
+    }
 
+    private void setDronesTable() {
         droneModel = new DronesTableModel(manager.getBs().getDrones());
         dronesJTable = new JTable(droneModel);
         dronesJTable.setRowHeight(40);
@@ -38,6 +44,14 @@ public class DronesTablePanel extends WindowPanel {
         dronesJTable.getColumnModel().getColumn(4).setCellRenderer(centerRenderer);
         dronesScroll = new JScrollPane(dronesJTable);
 
+        dronesJTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                if(e.getValueIsAdjusting())
+                    mainWindow.setDronePanel(droneModel.getDrone((dronesJTable.getSelectedRow())));
+            }
+        });
+
         this.add(BorderLayout.CENTER, dronesScroll);
     }
 
@@ -45,7 +59,6 @@ public class DronesTablePanel extends WindowPanel {
     public void redraw() {
         dronesJTable.repaint();
         dronesScroll.getViewport().revalidate();
-//        System.out.println(manager.getBs().getDrones());
     }
 
     private class DronesTableModel extends AbstractTableModel {
@@ -53,6 +66,10 @@ public class DronesTablePanel extends WindowPanel {
 
         public DronesTableModel(ArrayList<Drone> droneList) {
             this.droneList = droneList;
+        }
+
+        public Drone getDrone(int i) {
+            return droneList.get(i);
         }
 
         @Override
