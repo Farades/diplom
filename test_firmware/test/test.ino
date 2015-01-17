@@ -19,8 +19,9 @@ void loop() {
     lastPeriod = millis();
   }
   if (Serial.available() > 0) {
+    delay(5);
     while (Serial.available() > 0) {
-     Serial.read(); 
+     Serial.write(Serial.read()); 
     }
     blink(5);
   }

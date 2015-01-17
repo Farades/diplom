@@ -46,7 +46,6 @@ public class TerminalPanel extends WindowPanel implements ComObserver {
                     // TODO сделать диалоговое окно
                     System.out.println("Сначала откройте соединение");
                 }
-
             }
         });
         sendPanel.add(sendText);

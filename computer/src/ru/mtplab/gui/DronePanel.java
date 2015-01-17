@@ -13,7 +13,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 
 /**
  * Created by Артем on 17.01.2015.
@@ -25,10 +24,12 @@ public class DronePanel extends WindowPanel {
     private DroneStatesModel stateModel;
     private JScrollPane scrollPane;
     private JScrollBar vertical;
+    private JPanel mainPanel;
+    private JPanel sendPanel;
 
     private MainWindow mainWindow;
 
-    public DronePanel(Manager manager, JFrame frame, Drone drone, final MainWindow mainWindow) {
+    public DronePanel(final Manager manager, JFrame frame, final Drone drone, final MainWindow mainWindow) {
         super(manager, frame);
         this.drone = drone;
         this.mainWindow = mainWindow;
@@ -59,7 +60,38 @@ public class DronePanel extends WindowPanel {
         scrollPane = new JScrollPane(stateTable);
         vertical = scrollPane.getVerticalScrollBar();
         vertical.setValue(vertical.getMaximum());
-        add(BorderLayout.CENTER, scrollPane);
+
+        mainPanel = new JPanel(new BorderLayout());
+        mainPanel.add(BorderLayout.CENTER, scrollPane);
+        sendPanel = new JPanel();
+        JLabel sendCmdLabel = new JLabel("CMD: ");
+        final JTextField sendCmdField = new JTextField(10);
+        JLabel sendValueLabel = new JLabel("VAL: ");
+        final JTextField sendValueField = new JTextField(10);
+        JButton sendButton = new JButton("Отправить");
+        sendButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+//                DID=1;CMD=1;VAL=0
+                String sendStr = "DID=" + drone.getId() + ";CMD=" + sendCmdField.getText() + ";VAL=" + sendValueField.getText();
+                sendCmdField.setText("");
+                sendValueField.setText("");
+                try {
+                    manager.getBs().getPort().write(sendStr);
+                    System.out.println(sendStr);
+                } catch (NullPointerException ex) {
+                    // TODO сделать диалоговое окно
+                    //System.out.println("Сначала откройте соединение");
+                }
+            }
+        });
+        sendPanel.add(sendCmdLabel);
+        sendPanel.add(sendCmdField);
+        sendPanel.add(sendValueLabel);
+        sendPanel.add(sendValueField);
+        sendPanel.add(sendButton);
+        add(BorderLayout.CENTER, mainPanel);
+        mainPanel.add(BorderLayout.SOUTH, sendPanel);
     }
 
     @Override
@@ -67,7 +99,6 @@ public class DronePanel extends WindowPanel {
         stateTable.repaint();
         scrollPane.getViewport().revalidate();
         vertical.setValue(vertical.getMaximum());
-        System.out.println(drone);
     }
 
     private class DroneStatesModel extends AbstractTableModel {
@@ -125,7 +156,6 @@ public class DronePanel extends WindowPanel {
                 case 0:
                     SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM HH:mm:ss");
                     return dateFormat.format(droneState.getDate());
-//                    return ;
 
                 case 1:
                     return droneState.getLatitude();
