@@ -1,64 +1,43 @@
 package ru.mtplab.logic;
 
+import java.util.ArrayList;
+
 /**
  * Created by Артем on 11.01.2015.
  */
 public class Drone {
+    private DroneState currentState;
+
+    private ArrayList<DroneState> droneStates;
     private int id;
-    private float latitude;
-    private float longitude;
-    private byte  state;
-    private byte job;
 
-    public Drone(int id, float latitude, float longitude, byte state, byte job) {
+    public Drone(int id, DroneState state) {
         this.id = id;
-        this.latitude = latitude;
-        this.longitude = longitude;
-        this.state = state;
-        this.job = job;
+        this.currentState = state;
+        droneStates = new ArrayList<DroneState>();
+        droneStates.add(currentState);
     }
 
-
-    public void setLatitude(float latitude) {
-        this.latitude = latitude;
+    public void update(DroneState state) {
+        currentState = state;
+        droneStates.add(currentState);
     }
 
-    public void setLongitude(float longitude) {
-        this.longitude = longitude;
-    }
-
-    public void setState(byte state) {
-        this.state = state;
-    }
-
-    public void setJob(byte job) {
-        this.job = job;
+    public ArrayList<DroneState> getDroneStates() {
+        return droneStates;
     }
 
     public int getId() {
         return this.id;
     }
 
-    public float getLatitude() {
-        return latitude;
-    }
-
-    public float getLongitude() {
-        return longitude;
-    }
-
-    public byte getState() {
-        return state;
-    }
-
-    public byte getJob() {
-        return job;
+    public DroneState getCurrentState() {
+        return this.currentState;
     }
 
     @Override
     public String toString() {
-        return "[" + this.id + "]   Latitude: " + this.latitude + "   Logitude: " + this.longitude +
-                "   State: " + this.state + "   Job: " + this.job;
+        return "[" + this.id + "]  " + this.currentState;
     }
 
     @Override

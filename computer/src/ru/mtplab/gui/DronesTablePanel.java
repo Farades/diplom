@@ -121,16 +121,16 @@ public class DronesTablePanel extends WindowPanel {
                     return drone.getId();
 
                 case 1:
-                    return drone.getLatitude();
+                    return drone.getCurrentState().getLatitude();
 
                 case 2:
-                    return drone.getLongitude();
+                    return drone.getCurrentState().getLongitude();
 
                 case 3:
-                    return drone.getState();
+                    return drone.getCurrentState().getState();
 
                 case 4:
-                    return drone.getJob();
+                    return drone.getCurrentState().getJob();
             }
             return null;
         }

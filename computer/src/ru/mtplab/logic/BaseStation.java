@@ -79,13 +79,11 @@ public class BaseStation implements ComObserver {
                 }
                 i++;
             }
-            Drone drone = new Drone(id, latitude, longitude, state, job);
+            DroneState droneState = new DroneState(latitude, longitude, state, job);
+            Drone drone = new Drone(id, droneState);
             if (drones.contains(drone)) {
                 int index = drones.indexOf(drone);
-                drones.get(index).setLatitude(latitude);
-                drones.get(index).setLongitude(longitude);
-                drones.get(index).setState(state);
-                drones.get(index).setJob(job);
+                drones.get(index).update(droneState);
             } else {
                 drones.add(drone);
             }
