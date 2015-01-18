@@ -21,6 +21,9 @@ byte cmdValue = 0;
 typedef struct {		
   byte cmd;
   byte cmdValue;
+  float latitude;
+  float longitude;
+  byte state;
 } Payload;
 Payload theData;
 
@@ -55,10 +58,16 @@ void loop() {
   //check for any received packets
   if (radio.receiveDone())
   {
-    Serial.print('[');Serial.print(radio.SENDERID, DEC);Serial.print("] ");
-    for (byte i = 0; i < radio.DATALEN; i++)
-      Serial.print((char)radio.DATA[i]);
-    Serial.print("   [RX_RSSI:");Serial.print(radio.readRSSI());Serial.print("]");
+    //Serial.print('[');Serial.print(radio.SENDERID, DEC);Serial.print("] ");
+    if (radio.DATALEN != sizeof(Payload))
+      Serial.print("Invalid payload received, not matching Payload struct!");
+    else
+    {
+      theData = *(Payload*)radio.DATA; //assume radio.DATA actually contains our struct and not something else
+      Serial.print("^DID=");Serial.print(radio.SENDERID);Serial.print(";LAT=");Serial.print(theData.latitude);Serial.print(";LON=");Serial.print(theData.longitude);Serial.print(";STA=");Serial.print(theData.state);
+      Serial.print(";JOB=");Serial.print(theData.cmd);Serial.print(";\n");
+    }
+    //Serial.print("   [RX_RSSI:");Serial.print(radio.readRSSI());Serial.print("]");
 
     if (radio.ACKRequested())
     {
@@ -67,7 +76,6 @@ void loop() {
       delay(10);
     }
     Blink(LED,5);
-    Serial.println();
   }
   
   int currPeriod = millis()/TRANSMITPERIOD;
@@ -82,14 +90,14 @@ void loop() {
 }
 
 void sendMessage(int gatewayID) {    
-  Serial.print("Sending struct (");
-  Serial.print(sizeof(theData));
-  Serial.print(" bytes) ... ");
-  if (radio.sendWithRetry(gatewayID, (const void*)(&theData), sizeof(theData)))
-    Serial.print(" ok!");
-  else Serial.print(" nothing...");
-  Serial.println();
-  Serial.println();
+  //Serial.print("Sending struct (");
+  //Serial.print(sizeof(theData));
+  //Serial.print(" bytes) ... ");
+  //if (radio.sendWithRetry(gatewayID, (const void*)(&theData), sizeof(theData)))
+  //  Serial.print(" ok!");
+  //else Serial.print(" nothing...");
+  radio.send(gatewayID, (const void*)(&theData), sizeof(theData));
+  //Serial.println();
   Blink(LED,3);
 }
 

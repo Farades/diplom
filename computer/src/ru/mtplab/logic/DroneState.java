@@ -23,7 +23,7 @@ public class DroneState {
 
     @Override
     public String toString() {
-        return "Latitude: " + this.latitude + "   Logitude: " + this.longitude +
+        return "Latitude: " + this.latitude + "   Longitude: " + this.longitude +
         "   State: " + this.state + "   Job: " + this.job;
     }
 
