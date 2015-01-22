@@ -1,0 +1,71 @@
+@startuml
+namespace ru.mtplab.logic #FFFFFF {
+class BaseStation{
+ -ArrayList<Drone> drones
+ -ArrayList<DronesUpdateObserver> dronesUpdateObservers
+ -ComPort port
+ +ArrayList<Drone> getDrones()
+ +void setComPort(String portName)
+ +void closeComPort()
+ +ComPort getPort()
+ +void addDronesUpdateListener(DronesUpdateObserver obs)
+ -void dronesUpdateObsNotification()
+ +void onComReceive(String receiveString)
+}
+interface ComObserver{
+void onComReceive(String receiveString)
+}
+class ComPort{
+ -SerialPort serialPort
+ -ArrayList<ComObserver> comObservers
+ -StringBuilder readyReceiveString
+ +void write(String query)
+ +void close()
+ +void notification()
+ +void addComListener(ComObserver obs)
+ +void serialEvent(SerialPortEvent event)
+}
+class PortReader_ComPort <<SerialPortEventListener>> {
+ +void serialEvent(SerialPortEvent event)
+}
+class Drone{
+ -DroneState currentState
+ -ArrayList<DroneState> droneStates
+ -int id
+ +void update(DroneState state)
+ +ArrayList<DroneState> getDroneStates()
+ +int getId()
+ +DroneState getCurrentState()
+ +String toString()
+ +boolean equals(Object obj)
+}
+class DroneState{
+ -float latitude
+ -float longitude
+ -byte state
+ -byte job
+ -Date date
+ +String toString()
+ +float getLatitude()
+ +float getLongitude()
+ +byte getState()
+ +byte getJob()
+ +Date getDate()
+}
+interface DronesUpdateObserver{
+void onDronesUpdate()
+}
+class Manager{
+ -BaseStation bs
+ +BaseStation getBs()
+}
+}
+ru.mtplab.logic.ComObserver <|.. ru.mtplab.logic.BaseStation
+ru.mtplab.logic.BaseStation " 1"  o--  "0..*" ru.mtplab.logic.Drone
+ru.mtplab.logic.BaseStation " 1"  o--  "0..*" ru.mtplab.logic.DronesUpdateObserver
+ru.mtplab.logic.BaseStation " 1"  o--  "0..1" ru.mtplab.logic.ComPort
+ru.mtplab.logic.ComPort " 1"  o--  "0..*" ru.mtplab.logic.ComObserver
+ru.mtplab.logic.Drone " 1"  o--  "0..1" ru.mtplab.logic.DroneState
+ru.mtplab.logic.Manager " 1"  o--  "0..1" ru.mtplab.logic.BaseStation
+ru.mtplab.logic.PortReader_ComPort *- ru.mtplab.logic.ComPort
+@enduml

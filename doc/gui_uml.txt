@@ -1,0 +1,127 @@
+@startuml
+namespace ru.mtplab.gui #FFFFFF {
+class DronePanel{
+ -Drone drone
+ -JLabel title
+ -JTable stateTable
+ -DroneStatesModel stateModel
+ -JScrollPane scrollPane
+ -JScrollBar vertical
+ -JPanel mainPanel
+ -JPanel sendPanel
+ -MainWindow mainWindow
+ -ArrayList<DroneState> droneStates
+ +void actionPerformed(ActionEvent e)
+ +void actionPerformed(ActionEvent e)
+ +void redraw()
+ +int getRowCount()
+ +int getColumnCount()
+ +String getColumnName(int columnIndex)
+ +Class<?> getColumnClass(int columnIndex)
+ +boolean isCellEditable(int rowIndex, int columnIndex)
+ +Object getValueAt(int rowIndex, int columnIndex)
+ +void setValueAt(Object aValue, int rowIndex, int columnIndex)
+ +void addTableModelListener(TableModelListener l)
+ +void removeTableModelListener(TableModelListener l)
+}
+class DroneStatesModel_DronePanel{
+ -ArrayList<DroneState> droneStates
+ +int getRowCount()
+ +int getColumnCount()
+ +String getColumnName(int columnIndex)
+ +Class<?> getColumnClass(int columnIndex)
+ +boolean isCellEditable(int rowIndex, int columnIndex)
+ +Object getValueAt(int rowIndex, int columnIndex)
+ +void setValueAt(Object aValue, int rowIndex, int columnIndex)
+ +void addTableModelListener(TableModelListener l)
+ +void removeTableModelListener(TableModelListener l)
+}
+class DronesTablePanel{
+ -DronesTableModel droneModel
+ -JTable dronesJTable
+ -JScrollPane dronesScroll
+ -MainWindow mainWindow
+ -ArrayList<Drone> droneList
+ -void setDronesTable()
+ +void redraw()
+ +Drone getDrone(int i)
+ +int getRowCount()
+ +int getColumnCount()
+ +String getColumnName(int columnIndex)
+ +Class<?> getColumnClass(int columnIndex)
+ +boolean isCellEditable(int rowIndex, int columnIndex)
+ +Object getValueAt(int rowIndex, int columnIndex)
+ +void setValueAt(Object aValue, int rowIndex, int columnIndex)
+ +void addTableModelListener(TableModelListener l)
+ +void removeTableModelListener(TableModelListener l)
+}
+class DronesTableModel_DronesTablePanel{
+ -ArrayList<Drone> droneList
+ +Drone getDrone(int i)
+ +int getRowCount()
+ +int getColumnCount()
+ +String getColumnName(int columnIndex)
+ +Class<?> getColumnClass(int columnIndex)
+ +boolean isCellEditable(int rowIndex, int columnIndex)
+ +Object getValueAt(int rowIndex, int columnIndex)
+ +void setValueAt(Object aValue, int rowIndex, int columnIndex)
+ +void addTableModelListener(TableModelListener l)
+ +void removeTableModelListener(TableModelListener l)
+}
+class MainWindow{
+ -JTabbedPane tabbedPane
+ -DronesTablePanel dronesTablePanel
+ -TerminalPanel terminalPanel
+ -DronePanel dronePanel
+ +void setDronePanel(Drone drone)
+ +void setDronesTablePanel()
+ +ComObserver getTerminalPanel()
+ +void redraw()
+}
+class ManagerGUI{
+ -Manager manager
+ -MainWindow mainWindow
+ -JLabel statusLabel
+ +{static}String TITLE
+ +{static}int WIDTH
+ +{static}int HEIGHT
+ -void setMenu()
+ +void onDronesUpdate()
+}
+interface Redrawable{
+void redraw()
+}
+class TerminalPanel{
+ -JTextArea textArea
+ -JScrollPane scrollPane
+ -JScrollBar vertical
+ -JTextField sendText
+ +void actionPerformed(ActionEvent e)
+ +void redraw()
+ +void onComReceive(String receiveString)
+}
+class WindowPanel{
+ #JFrame mainFrame
+ #Manager manager
+}
+}
+ru.mtplab.gui.WindowPanel <|-- ru.mtplab.gui.DronePanel
+AbstractTableModel ()- ru.mtplab.gui.DroneStatesModel_DronePanel
+ru.mtplab.gui.WindowPanel <|-- ru.mtplab.gui.DronesTablePanel
+AbstractTableModel ()- ru.mtplab.gui.DronesTableModel_DronesTablePanel
+ru.mtplab.gui.WindowPanel <|-- ru.mtplab.gui.MainWindow
+ru.mtplab.gui.DronesUpdateObserver <|.. ru.mtplab.gui.ManagerGUI
+JFrame ()- ru.mtplab.gui.ManagerGUI
+ru.mtplab.gui.WindowPanel <|-- ru.mtplab.gui.TerminalPanel
+ru.mtplab.gui.Redrawable <|.. ru.mtplab.gui.WindowPanel
+JPanel ()- ru.mtplab.gui.WindowPanel
+ru.mtplab.gui.DronePanel " 1"  o--  "0..1" ru.mtplab.gui.MainWindow
+ru.mtplab.gui.DronesTablePanel " 1"  o--  "0..1" ru.mtplab.gui.MainWindow
+ru.mtplab.gui.MainWindow " 1"  o--  "0..1" ru.mtplab.gui.DronesTablePanel
+ru.mtplab.gui.MainWindow " 1"  o--  "0..1" ru.mtplab.gui.TerminalPanel
+ru.mtplab.gui.MainWindow " 1"  o--  "0..1" ru.mtplab.gui.DronePanel
+ru.mtplab.gui.ManagerGUI " 1"  o--  "0..1" ru.mtplab.gui.Manager
+ru.mtplab.gui.ManagerGUI " 1"  o--  "0..1" ru.mtplab.gui.MainWindow
+ru.mtplab.gui.DroneStatesModel_DronePanel *- ru.mtplab.gui.DronePanel
+ru.mtplab.gui.DronesTableModel_DronesTablePanel *- ru.mtplab.gui.DronesTablePanel
+@enduml

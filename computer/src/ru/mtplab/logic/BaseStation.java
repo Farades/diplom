@@ -47,7 +47,7 @@ public class BaseStation implements ComObserver {
     }
 
     @Override
-    public void onComReceive(String receiveString ) {
+    public void onComReceive(String receiveString) {
         String[] dronesState = receiveString.split("&");
 
         for (String droneStr : dronesState) {
